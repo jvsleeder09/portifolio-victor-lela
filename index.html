@@ -273,25 +273,55 @@
                     </div>
                 </div>
              </div>
-                <div class="contact-form glass">
-                    <h3 style="margin-bottom: 30px;">Envie uma Mensagem</h3>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Seu nome" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Seu email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Sua mensagem ou proposta de projeto" required></textarea>
-                        </div>
-                        <button type="submit" class="cta-button" style="width: 100%;">
-                            <i class="fas fa-paper-plane"></i> Enviar Mensagem
-                        </button>
-                        <div id="formMessage" style="margin-top: 15px; display: none;"></div>
-                    </form>
+                <!-- NO SEU HTML, na seção de contato: -->
+        <div class="contact-form glass">
+            <h3 style="margin-bottom: 30px;">Envie uma Mensagem</h3>
+            
+            <!-- Formulário Flask -->
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Seu nome *" required>
                 </div>
+                
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Seu email *" required>
+                </div>
+                
+                <div class="form-group">
+                    <textarea name="message" placeholder="Sua mensagem ou proposta de projeto *" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="cta-button" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Enviar Proposta
+                </button>
+                
+                <!-- Mensagem dinâmica aparecerá aqui -->
+                <div id="formMessage" style="display: none; margin-top: 20px;"></div>
+            </form>
+            
+            <!-- Backup VISÍVEL -->
+            <div style="margin-top: 25px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; text-align: center;">
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">
+                    <i class="fas fa-shield-alt" style="color: var(--primary-color);"></i>
+                    <strong> Sistema 100% seguro</strong><br>
+                    <span style="font-size: 0.85rem;">
+                        Dados processados diretamente no seu servidor
+                    </span>
+                </p>
             </div>
+            
+            <!-- Email direto SEMPRE visível -->
+            <div style="margin-top: 15px; text-align: center;">
+                <p style="margin: 0; font-size: 0.9rem;">
+                    <i class="fas fa-envelope"></i>
+                    <strong> Email direto:</strong>
+                    <a href="mailto:victorarsego1@gmail.com" 
+                       style="color: var(--primary-color); font-weight: bold;">
+                        victorarsego1@gmail.com
+                    </a>
+                </p>
+            </div>
+        </div>
         </section>
 
         <footer>
