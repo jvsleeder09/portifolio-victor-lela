@@ -1169,7 +1169,16 @@ footer p {
     }
     
     .contact-icon {
-        margin-bottom: 5px;
+         width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(139, 0, 0, 0.1));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;  /* Reduzido de 1.2rem */
+        color: var(--primary-color)
     }
     
     /* Footer */
