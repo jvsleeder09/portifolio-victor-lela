@@ -179,24 +179,21 @@ footer p{margin-top:10px;font-size:0.9rem}
 
 /* CORREÇÕES ESPECÍFICAS */
 /* CORREÇÕES ESPECÍFICAS */
-/* 1. Ícones de contato NO DESKTOP - VOLTAR PARA 50px */
-@media screen and (min-width:769px){
-    .contact-icon{
+@media screen and (min-width: 769px) {
+    .contact-icon {
+        all: unset !important; /* Reseta TUDO primeiro */
         width: 40px !important;
         height: 40px !important;
         min-width: 40px !important;
+        border-radius: 50% !important;
+        background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), rgba(139, 0, 0, 0.1)) !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-right: 15px !important;
         font-size: 0.9rem !important;
-        border-radius: 50% !important; /* ADICIONAR ESTA LINHA */
-    }
-    .contact-item{
-        gap:12px!important;
-        margin-bottom:20px!important;
-    }
-    .contact-item h4{
-        font-size:1rem!important;
-    }
-    .contact-item p{
-        font-size:0.95rem!important;
+        color: var(--primary-color) !important;
+        flex-shrink: 0 !important;
     }
 }
 /* 2. Espaçamento entre habilidades e competências no mobile */
