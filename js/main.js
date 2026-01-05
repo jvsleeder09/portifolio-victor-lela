@@ -7,7 +7,25 @@ let currentFilter = 'all';
 let currentPage = 1;
 
 // ============================================
-// FORMULÁRIO DE CONTATO - CORRIGIDO
+// FUNÇÕES AUXILIARES
+// ============================================
+
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+function getProjectIcon(category) {
+    const icons = {
+        'Workflow Automation': 'fas fa-briefcase',
+        'Web Interfaces': 'fas fa-globe',
+        'Document Systems': 'fas fa-folder-open',
+        'Data Extraction': 'fas fa-database'
+    };
+    return icons[category] || 'fas fa-code';
+}
+
+// ============================================
+// FORMULÁRIO DE CONTATO
 // ============================================
 
 async function sendContactForm(formData) {
@@ -23,7 +41,6 @@ async function sendContactForm(formData) {
         
         console.log('📤 Enviando para API:', formData);
         
-        // Enviar para SEU Flask
         const response = await fetch('/api/contact', {
             method: 'POST',
             headers: {
@@ -35,7 +52,6 @@ async function sendContactForm(formData) {
         const result = await response.json();
         console.log('📥 Resposta API:', result);
         
-        // Mostrar mensagem
         if (formMessage) {
             formMessage.innerHTML = result.message;
             formMessage.style.display = 'block';
@@ -52,7 +68,6 @@ async function sendContactForm(formData) {
             }
         }
         
-        // Auto-esconder mensagem
         setTimeout(() => {
             if (formMessage) formMessage.style.display = 'none';
         }, 5000);
@@ -69,7 +84,6 @@ async function sendContactForm(formData) {
         }
         
     } finally {
-        // Restaurar botão
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
@@ -86,9 +100,8 @@ function setupContactForm() {
     console.log('✅ Formulário configurado');
     
     contactForm.addEventListener('submit', function(e) {
-        e.preventDefault(); // IMPEDE o comportamento padrão
+        e.preventDefault();
         
-        // Coletar dados
         const formData = {
             name: this.querySelector('[name="name"]').value.trim(),
             email: this.querySelector('[name="email"]').value.trim(),
@@ -97,133 +110,104 @@ function setupContactForm() {
         
         console.log('📝 Dados do formulário:', formData);
         
-        // Validar
         if (!formData.name || !formData.email || !formData.message) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
         
-        // Enviar
         sendContactForm(formData);
     });
 }
 
 // ============================================
-// RESTANTE DO CÓDIGO (mantenha igual)
+// PROJETOS - FILTROS E PAGINAÇÃO
 // ============================================
 
-// INICIALIZAR QUANDO PÁGINA CARREGAR
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Portfólio inicializando...');
-    
-    // 1. Inicializar partículas
-    if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: ["#3b82f6", "#8b0000", "#dc2626"] },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#3b82f6",
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" },
-                    onclick: { enable: true, mode: "push" }
-                }
-            }
-        });
-    }
-    
-    // 2. Configurar links clicáveis
-    // GitHub
-    const githubProfile = document.getElementById('githubProfile');
-    if (githubProfile) {
-        githubProfile.style.cursor = 'pointer';
-        githubProfile.onclick = () => window.open('https://github.com/ProfissionalJV/Portifolio-MCom', '_blank');
-    }
-    
-    // LinkedIn
-    const linkedinProfile = document.getElementById('linkedinProfile');
-    if (linkedinProfile) {
-        linkedinProfile.style.cursor = 'pointer';
-        linkedinProfile.onclick = () => window.open('https://www.linkedin.com/in/vltech/', '_blank');
-    }
-    
-    // Email
-    const contactEmail = document.getElementById('contact-email');
-    if (contactEmail) {
-        contactEmail.style.cursor = 'pointer';
-        contactEmail.onclick = () => window.location.href = 'mailto:victorarsego1@gmail.com';
-    }
-    
-    // 3. Formulário de contato
-    setupContactForm();
-    
-    // 4. Renderizar projetos
-    renderProjects();
-    
-    // 5. Atualizar footer stats
-    updateFooterStats();
-});
+function generateCategoryFilters() {
+    const filterContainer = document.getElementById('filterButtons');
+    if (!filterContainer) return;
 
-// FUNÇÕES EXISTENTES (mantenha igual)
-function updateFooterStats() {
-    const totalStars = MY_PROJECTS.reduce((sum, p) => sum + p.stars, 0);
-    const totalForks = MY_PROJECTS.reduce((sum, p) => sum + p.forks, 0);
-    const techSet = new Set();
-    MY_PROJECTS.forEach(p => p.technologies.forEach(t => techSet.add(t)));
+    const categories = [...new Set(MY_PROJECTS.map(p => p.category))];
     
-    const footerStats = document.getElementById('githubStats');
-    if (!footerStats) return;
-    
-    footerStats.innerHTML = `
-        <div class="github-stat">
-            <div class="stat-number">${MY_PROJECTS.length}</div>
-            <div class="stat-label">Projetos</div>
-        </div>
-        <div class="github-stat">
-            <div class="stat-number">${totalStars}</div>
-            <div class="stat-label">Estrelas</div>
-        </div>
-        <div class="github-stat">
-            <div class="stat-number">${totalForks}</div>
-            <div class="stat-label">Forks</div>
-        </div>
-        <div class="github-stat">
-            <div class="stat-number">${techSet.size}</div>
-            <div class="stat-label">Tecnologias</div>
-        </div>
-    `;
+    // Limpar filtros existentes (exceto "Todos" e "Destaques")
+    const existingButtons = filterContainer.querySelectorAll('.filter-btn');
+    existingButtons.forEach(btn => {
+        const filter = btn.getAttribute('data-filter');
+        if (filter !== 'all' && filter !== 'featured') {
+            btn.remove();
+        }
+    });
+
+    categories.forEach(category => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.setAttribute('data-filter', category);
+        btn.textContent = category;
+        
+        const lastBtn = filterContainer.querySelector('.filter-btn[data-filter="featured"]');
+        if (lastBtn) {
+            filterContainer.insertBefore(btn, lastBtn);
+        } else {
+            filterContainer.appendChild(btn);
+        }
+    });
+
+    filterContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('filter-btn')) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            const filter = e.target.getAttribute('data-filter');
+            applyFilter(filter);
+        }
+    });
 }
+
+function applyFilter(filter) {
+    currentFilter = filter;
+    currentPage = 1;
+    
+    if (filter === 'all') {
+        currentProjects = MY_PROJECTS;
+    } else if (filter === 'featured') {
+        currentProjects = MY_PROJECTS.filter(p => p.featured);
+    } else {
+        currentProjects = MY_PROJECTS.filter(p => p.category === filter);
+    }
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput && searchInput.value) {
+        const searchTerm = searchInput.value.toLowerCase();
+        currentProjects = currentProjects.filter(p => 
+            p.name.toLowerCase().includes(searchTerm) ||
+            p.description.toLowerCase().includes(searchTerm) ||
+            p.technologies.some(t => t.toLowerCase().includes(searchTerm)) ||
+            p.topics.some(t => t.toLowerCase().includes(searchTerm))
+        );
+    }
+    
+    renderProjects();
+}
+
+// ============================================
+// RENDERIZAÇÃO DE PROJETOS
+// ============================================
 
 function renderProjects() {
     const container = document.getElementById('projectsContainer');
     if (!container) return;
     
-    // Calcular quais projetos mostrar
+    // Ajustar grid para mobile
+    if (isMobile()) {
+        container.style.gridTemplateColumns = '1fr';
+    }
+    
     const startIndex = (currentPage - 1) * PROJECTS_PER_PAGE;
     const endIndex = startIndex + PROJECTS_PER_PAGE;
     const projectsToShow = currentProjects.slice(startIndex, endIndex);
     
-    // Se não houver projetos
     if (projectsToShow.length === 0) {
         container.innerHTML = `
             <div class="no-results glass">
@@ -235,7 +219,6 @@ function renderProjects() {
         return;
     }
     
-    // Gerar HTML dos projetos
     container.innerHTML = projectsToShow.map(project => `
         <div class="project-card glass">
             <div class="project-header">
@@ -289,7 +272,6 @@ function renderProjects() {
         </div>
     `).join('');
     
-    // Adicionar event listeners para botões de detalhes
     document.querySelectorAll('.view-details-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const projectId = parseInt(this.getAttribute('data-project-id'));
@@ -298,21 +280,10 @@ function renderProjects() {
     });
 }
 
-function getProjectIcon(category) {
-    const icons = {
-        'Workflow Automation': 'fas fa-briefcase',
-        'Web Interfaces': 'fas fa-globe',
-        'Document Systems': 'fas fa-folder-open',
-        'Data Extraction': 'fas fa-database'
-    };
-    return icons[category] || 'fas fa-code';
-}
-
 function showProjectDetails(projectId) {
     const project = MY_PROJECTS.find(p => p.id === projectId);
     if (!project) return;
     
-    // Criar modal
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
@@ -391,7 +362,6 @@ function showProjectDetails(projectId) {
     
     document.body.appendChild(modal);
     
-    // Fechar modal
     modal.querySelector('.close-modal').addEventListener('click', () => {
         document.body.removeChild(modal);
     });
@@ -401,89 +371,192 @@ function showProjectDetails(projectId) {
             document.body.removeChild(modal);
         }
     });
+}
 
-    // ============================================
-// RESPONSIVIDADE DINÂMICA
+// ============================================
+// FOOTER STATS
 // ============================================
 
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
+function updateFooterStats() {
+    const totalStars = MY_PROJECTS.reduce((sum, p) => sum + p.stars, 0);
+    const totalForks = MY_PROJECTS.reduce((sum, p) => sum + p.forks, 0);
+    const techSet = new Set();
+    MY_PROJECTS.forEach(p => p.technologies.forEach(t => techSet.add(t)));
     
-    function adjustForMobile() {
-        // Ajustar número de partículas no mobile
-        if (isMobile() && typeof particlesJS !== 'undefined') {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 40, density: { enable: true, value_area: 400 } },
-                    color: { value: ["#3b82f6", "#8b0000", "#dc2626"] },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.4, random: true },
-                    size: { value: 2.5, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 100,
-                        color: "#3b82f6",
-                        opacity: 0.15,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 1.5,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
+    const footerStats = document.getElementById('githubStats');
+    if (!footerStats) return;
+    
+    footerStats.innerHTML = `
+        <div class="github-stat">
+            <div class="stat-number">${MY_PROJECTS.length}</div>
+            <div class="stat-label">Projetos</div>
+        </div>
+        <div class="github-stat">
+            <div class="stat-number">${totalStars}</div>
+            <div class="stat-label">Estrelas</div>
+        </div>
+        <div class="github-stat">
+            <div class="stat-number">${totalForks}</div>
+            <div class="stat-label">Forks</div>
+        </div>
+        <div class="github-stat">
+            <div class="stat-number">${techSet.size}</div>
+            <div class="stat-label">Tecnologias</div>
+        </div>
+    `;
+}
+
+// ============================================
+// RESPONSIVIDADE
+// ============================================
+
+function adjustForMobile() {
+    if (isMobile() && typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 40, density: { enable: true, value_area: 400 } },
+                color: { value: ["#3b82f6", "#8b0000", "#dc2626"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.4, random: true },
+                size: { value: 2.5, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 100,
+                    color: "#3b82f6",
+                    opacity: 0.15,
+                    width: 1
                 },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" }
-                    }
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
                 }
-            });
-        }
-        
-        // Ajustar grid de projetos
-        const container = document.getElementById('projectsContainer');
-        if (container && isMobile()) {
-            // Se for mobile, força 1 coluna
-            container.style.gridTemplateColumns = '1fr';
-        }
-    }
-    
-    // Inicializar ajustes
-    document.addEventListener('DOMContentLoaded', function() {
-        adjustForMobile();
-        
-        // Reajustar ao redimensionar
-        window.addEventListener('resize', function() {
-            adjustForMobile();
-            
-            // Atualizar grid de projetos se necessário
-            renderProjects();
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
         });
-        
-        // Ajustar smooth scroll para mobile
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    const offset = isMobile() ? 60 : 80;
-                    window.scrollTo({
-                        top: targetElement.offsetTop - offset,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+    }
+}
+
+function setupSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+                const offset = isMobile() ? 60 : 80;
+                window.scrollTo({
+                    top: targetElement.offsetTop - offset,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
-    
 }
+
+// ============================================
+// INICIALIZAÇÃO
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Portfólio inicializando...');
+    
+    // 1. Inicializar partículas
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: ["#3b82f6", "#8b0000", "#dc2626"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#3b82f6",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
+        });
+    }
+    
+    // 2. Configurar links clicáveis
+    const socialLinks = {
+        'githubProfile': 'https://github.com/ProfissionalJV/Portifolio-MCom',
+        'linkedinProfile': 'https://www.linkedin.com/in/vltech/',
+        'contact-email': 'mailto:victorarsego1@gmail.com'
+    };
+    
+    Object.keys(socialLinks).forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.style.cursor = 'pointer';
+            element.onclick = () => {
+                if (id === 'contact-email') {
+                    window.location.href = socialLinks[id];
+                } else {
+                    window.open(socialLinks[id], '_blank');
+                }
+            };
+        }
+    });
+    
+    // 3. Formulário de contato
+    setupContactForm();
+    
+    // 4. Gerar filtros de categorias
+    generateCategoryFilters();
+    
+    // 5. Renderizar projetos
+    renderProjects();
+    
+    // 6. Atualizar footer stats
+    updateFooterStats();
+    
+    // 7. Configurar busca
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            applyFilter(currentFilter);
+        });
+    }
+    
+    // 8. Ajustes mobile
+    adjustForMobile();
+    setupSmoothScroll();
+    
+    // 9. Reajustar ao redimensionar
+    window.addEventListener('resize', function() {
+        adjustForMobile();
+        renderProjects();
+    });
+});
