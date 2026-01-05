@@ -179,7 +179,7 @@ footer p{margin-top:10px;font-size:0.9rem}
 
 /* CORREÇÕES ESPECÍFICAS */
 /* 1. Ícones de contato menores no desktop */
-@media screen and (min-width:769px){.contact-icon{width:45px!important;height:45px!important;min-width:45px!important;font-size:1rem!important}.contact-item{gap:12px!important;margin-bottom:20px!important}.contact-item h4{font-size:1rem!important}.contact-item p{font-size:0.95rem!important}}
+@media screen and (min-width:769px){.contact-icon{width:40px!important;height:40px!important;min-width:40px!important;font-size:0.9rem!important}.contact-item{gap:12px!important;margin-bottom:20px!important}.contact-item h4{font-size:1rem!important}.contact-item p{font-size:0.95rem!important}}
 
 /* 2. Espaçamento entre habilidades e competências no mobile */
 @media screen and (max-width:768px){.habilidades-container,.competencias-container{margin:25px 0!important;padding:30px 20px!important;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent,var(--primary-color),var(--accent-color),transparent)1;border-image-slice:1}.grid-2-columns,.grid-1fr-1fr{gap:30px!important}.skills-section+.competencies-section{margin-top:40px!important}}
