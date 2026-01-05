@@ -114,7 +114,7 @@ ul li strong{color:var(--text-color)}
 .contact-info,.contact-form{padding:30px}
 .contact-info h3,.contact-form h3{margin-bottom:30px}
 .contact-item{display:flex;align-items:flex-start;margin-bottom:25px;gap:15px}
-.contact-icon{width:50px;height:50px;min-width:50px;border-radius:50%;background:linear-gradient(90deg,rgba(59,130,246,0.1),rgba(139,0,0,0.1));display:flex;justify-content:center;align-items:center;font-size:1.2rem;color:var(--primary-color)}
+.contact-icon{width:50px;height:50px;min-width:50px;border-radius:50%;background:linear-gradient(90deg,rgba(59,130,246,0.1),rgba(139,0,0,0.1));display:flex;justify-content:center;align-items:center;font-size:0.8rem;color:var(--primary-color)}
 .contact-item div{flex:1}
 .contact-item h4{margin-bottom:5px;font-size:1.1rem}
 .contact-item p{color:var(--text-secondary);line-height:1.5}
