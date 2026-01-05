@@ -431,54 +431,126 @@ function setupEventListeners() {
         });
     });
     
-    // Formulário de contato - ATUALIZADO
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-        
-        // Mostrar loading
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
+   // ============================================
+// FORMULÁRIO DE CONTATO - FLASK PERSONALIZADO
+// ============================================
+
+async function sendContactForm(formData) {
+    const submitBtn = document.querySelector('#contactForm button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    try {
+        // Feedback visual
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
         submitBtn.disabled = true;
         
-        // Coletar dados do formulário
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
+        // Enviar para SEU Flask
+        const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
         
-        try {
-            // Enviar para o backend Flask
-            const response = await fetch('/send_message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
+        const result = await response.json();
+        
+        if (result.success) {
+            // SUCESSO - mostrar feedback amigável
+            showFormMessage('success', result.message);
+            document.getElementById('contactForm').reset();
+        } else {
+            // ERRO - mostrar email alternativo
+            showFormMessage('error', 
+                result.message + '<br><br>' +
+                '<strong>📧 Envie diretamente para:</strong><br>' +
+                '<a href="mailto:victorarsego1@gmail.com" style="color: white; text-decoration: underline;">victorarsego1@gmail.com</a>'
+            );
+        }
+        
+    } catch (error) {
+        // ERRO DE REDE - email direto
+        showFormMessage('error', 
+            'Problema de conexão.<br><br>' +
+            '<strong>📧 Use o email direto:</strong><br>' +
+            '<a href="mailto:victorarsego1@gmail.com" style="color: white; text-decoration: underline;">victorarsego1@gmail.com</a>'
+        );
+        console.error('Erro:', error);
+        
+    } finally {
+        // Restaurar botão
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+function showFormMessage(type, message) {
+    // Criar ou atualizar div de mensagem
+    let messageDiv = document.getElementById('formMessage');
+    
+    if (!messageDiv) {
+        messageDiv = document.createElement('div');
+        messageDiv.id = 'formMessage';
+        messageDiv.style.cssText = `
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+        `;
+        document.getElementById('contactForm').appendChild(messageDiv);
+    }
+    
+    // Estilo por tipo
+    if (type === 'success') {
+        messageDiv.style.background = 'rgba(16, 185, 129, 0.2)';
+        messageDiv.style.border = '2px solid #10B981';
+        messageDiv.style.color = '#10B981';
+    } else {
+        messageDiv.style.background = 'rgba(239, 68, 68, 0.2)';
+        messageDiv.style.border = '2px solid #EF4444';
+        messageDiv.style.color = '#EF4444';
+    }
+    
+    // Conteúdo
+    messageDiv.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+        ${message}
+    `;
+    messageDiv.style.display = 'block';
+    
+    // Auto-esconder após 8 segundos
+    setTimeout(() => {
+        messageDiv.style.display = 'none';
+    }, 8000);
+}
+
+// Inicializar formulário
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            const result = await response.json();
+            // Coletar dados
+            const formData = {
+                name: this.querySelector('[name="name"]').value.trim(),
+                email: this.querySelector('[name="email"]').value.trim(),
+                message: this.querySelector('[name="message"]').value.trim()
+            };
             
-            if (result.success) {
-                // Sucesso
-                alert('✅ ' + result.message);
-                contactForm.reset();
-                
-                // Também mostra no console (para debug)
-                console.log('📧 Mensagem enviada com sucesso:', formData);
-            } else {
-                // Erro
-                alert('❌ ' + result.message);
-                console.error('Erro ao enviar:', result);
+            // Validar
+            if (!formData.name || !formData.email || !formData.message) {
+                showFormMessage('error', 'Preencha todos os campos obrigatórios.');
+                return;
             }
             
-        } catch (error) {
-            console.error('Erro de conexão:', error);
-            alert('❌ Erro ao conectar com o servidor. Tente novamente.');
-        } finally {
+            // Enviar
+            sendContactForm(formData);
+        });
+    }
+});
             // Restaurar botão
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
