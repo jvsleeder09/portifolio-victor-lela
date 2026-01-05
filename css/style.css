@@ -178,9 +178,27 @@ footer p{margin-top:10px;font-size:0.9rem}
 @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* CORREÇÕES ESPECÍFICAS */
-/* 1. Ícones de contato menores no desktop */
-@media screen and (min-width:769px){.contact-icon{width:40px!important;height:40px!important;min-width:40px!important;font-size:0.9rem!important}.contact-item{gap:12px!important;margin-bottom:20px!important}.contact-item h4{font-size:1rem!important}.contact-item p{font-size:0.95rem!important}}
-
+/* CORREÇÕES ESPECÍFICAS */
+/* 1. Ícones de contato NO DESKTOP - VOLTAR PARA 50px */
+@media screen and (min-width:769px){
+    .contact-icon{
+        width: 50px !important;        /* VOLTAR PARA 50px */
+        height: 50px !important;       /* VOLTAR PARA 50px */
+        min-width: 50px !important;    /* VOLTAR PARA 50px */
+        font-size: 1.2rem !important;  /* Aumentar ícone também */
+        border-radius: 50% !important; /* Garantir que fique redondo */
+    }
+    .contact-item{
+        gap: 15px !important;          /* Espaço entre ícone e texto */
+        margin-bottom: 25px !important; /* Espaço entre itens */
+    }
+    .contact-item h4{
+        font-size: 1.1rem !important;
+    }
+    .contact-item p{
+        font-size: 1rem !important;
+    }
+}
 /* 2. Espaçamento entre habilidades e competências no mobile */
 @media screen and (max-width:768px){.habilidades-container,.competencias-container{margin:25px 0!important;padding:30px 20px!important;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent,var(--primary-color),var(--accent-color),transparent)1;border-image-slice:1}.grid-2-columns,.grid-1fr-1fr{gap:30px!important}.skills-section+.competencies-section{margin-top:40px!important}}
 
