@@ -268,11 +268,9 @@ function renderProjects() {
                 `).join('')}
             </div>
             
-            <div style="margin: 15px 0; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 10px; border-left: 3px solid var(--primary-color);">
-                <div style="display: flex; align-items: center; margin-bottom: 5px;">
-                    <i class="fas fa-bullseye" style="color: var(--primary-color); margin-right: 8px;"></i>
-                    <span style="font-size: 0.85rem; color: var(--text-secondary);">${project.details.objective}</span>
-                </div>
+            <div class="project-objective">
+                <i class="fas fa-bullseye"></i>
+                <span>${project.details.objective}</span>
             </div>
             
             <div class="project-links">
@@ -403,4 +401,89 @@ function showProjectDetails(projectId) {
             document.body.removeChild(modal);
         }
     });
+
+    // ============================================
+// RESPONSIVIDADE DINÂMICA
+// ============================================
+
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+    
+    function adjustForMobile() {
+        // Ajustar número de partículas no mobile
+        if (isMobile() && typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 40, density: { enable: true, value_area: 400 } },
+                    color: { value: ["#3b82f6", "#8b0000", "#dc2626"] },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.4, random: true },
+                    size: { value: 2.5, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 100,
+                        color: "#3b82f6",
+                        opacity: 0.15,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1.5,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                }
+            });
+        }
+        
+        // Ajustar grid de projetos
+        const container = document.getElementById('projectsContainer');
+        if (container && isMobile()) {
+            // Se for mobile, força 1 coluna
+            container.style.gridTemplateColumns = '1fr';
+        }
+    }
+    
+    // Inicializar ajustes
+    document.addEventListener('DOMContentLoaded', function() {
+        adjustForMobile();
+        
+        // Reajustar ao redimensionar
+        window.addEventListener('resize', function() {
+            adjustForMobile();
+            
+            // Atualizar grid de projetos se necessário
+            renderProjects();
+        });
+        
+        // Ajustar smooth scroll para mobile
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    const offset = isMobile() ? 60 : 80;
+                    window.scrollTo({
+                        top: targetElement.offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+    
 }
