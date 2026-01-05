@@ -1,19 +1,17 @@
 from flask import Flask, send_from_directory, request, jsonify
 from flask_cors import CORS
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Email, To, Content
 import os
-import ssl
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# 🔐 CONFIGURAÇÕES DE EMAIL (Render -> Environment Variables)
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 465  # ⚡ MUDEI para 465 (SSL) - mais estável
-EMAIL_USER = os.environ.get("EMAIL_USER", "")
-EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
+# 🔐 Configuração SendGrid
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_FROM_EMAIL = "victorarsego1@gmail.com"  # O mesmo que verificou
+SENDGRID_TO_EMAIL = "victorarsego1@gmail.com"    # Para onde enviar
 
 @app.route('/')
 def home():
@@ -25,7 +23,7 @@ def static_file(path):
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
-    """API de contato OTIMIZADA para Render"""
+    """Envia email via SendGrid"""
     try:
         # 1. Validar entrada
         data = request.get_json()
@@ -39,28 +37,25 @@ def contact():
         if not all([name, email, message]):
             return jsonify({"success": False, "message": "Preencha todos os campos"}), 400
         
-        print(f"📧 Tentando enviar de: {name} ({email})")
+        print(f"📤 Enviando via SendGrid: {name} ({email})")
         
-        # 2. Verificar credenciais
-        if not EMAIL_USER or not EMAIL_PASSWORD:
-            print("⚠️  Credenciais não configuradas")
+        # 2. Verificar API Key
+        if not SENDGRID_API_KEY:
+            print("⚠️  SendGrid API Key não configurada")
+            # Fallback: salva no log
+            save_lead_locally(name, email, message)
             return jsonify({
-                "success": False, 
-                "message": "Serviço de email em manutenção. Use: victorarsego1@gmail.com"
-            }), 503
+                "success": True,  # Não falha para o cliente
+                "message": "✅ Recebemos sua proposta! Entrarei em contato em breve."
+            })
         
-        # 3. Criar email URGENTE (cliente potencial!)
-        msg = MIMEMultipart()
-        msg['From'] = EMAIL_USER
-        msg['To'] = "victorarsego1@gmail.com"  # SEU EMAIL
-        msg['Subject'] = f"🚀 CLIENTE POTENCIAL: {name}"
-        
-        body = f"""
-        🔥 NOVA MENSAGEM DO PORTFÓLIO - CLIENTE POTENCIAL!
+        # 3. Criar email com SendGrid
+        email_content = f"""
+        🚀 NOVO CLIENTE POTENCIAL - PORTFÓLIO VICTOR
         
         👤 Nome: {name}
         📧 Email: {email}
-        📅 Data: {os.environ.get('RENDER_TIMESTAMP', 'Agora')}
+        📅 Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
         
         💼 MENSAGEM:
         {message}
@@ -73,68 +68,70 @@ def contact():
         📍 Enviado automaticamente do seu portfólio.
         """
         
-        msg.attach(MIMEText(body, 'plain'))
+        # 4. Configurar email SendGrid
+        message = Mail(
+            from_email=Email(SENDGRID_FROM_EMAIL, "Portfólio Victor"),
+            to_emails=To(SENDGRID_TO_EMAIL),
+            subject=f"🎯 CLIENTE POTENCIAL: {name}",
+            plain_text_content=email_content
+        )
         
-        # 4. Enviar com SSL (mais confiável que TLS)
-        print(f"🔐 Conectando com SSL na porta {EMAIL_PORT}...")
+        # 5. Enviar via SendGrid API
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(message)
         
-        # Contexto SSL seguro
-        context = ssl.create_default_context()
+        print(f"✅ Email enviado via SendGrid. Status: {response.status_code}")
         
-        # SMTP com SSL (porta 465) - MAIS ESTÁVEL
-        with smtplib.SMTP_SSL(EMAIL_HOST, EMAIL_PORT, context=context, timeout=15) as server:
-            print("✅ Conexão SSL estabelecida")
-            
-            # Login
-            server.login(EMAIL_USER, EMAIL_PASSWORD)
-            print("✅ Login realizado")
-            
-            # Enviar
-            server.send_message(msg)
-            print("✅ Email enviado para Gmail")
-        
-        print(f"🎉 Sucesso! Cliente '{name}' notificado")
+        # Salva backup local
+        save_lead_locally(name, email, message)
         
         return jsonify({
             "success": True,
             "message": "✅ Proposta enviada! Entrarei em contato em até 24 horas."
         })
         
-    except smtplib.SMTPAuthenticationError as e:
-        print(f"❌ ERRO DE SENHA: {str(e)}")
-        print("💡 Verifique: 1) Senha de app correta 2) Verificação em 2 etapas ativa")
-        return jsonify({
-            "success": False,
-            "message": "Erro de configuração. Email: victorarsego1@gmail.com"
-        }), 500
-        
     except Exception as e:
-        print(f"❌ Erro geral: {type(e).__name__}: {str(e)}")
+        print(f"❌ Erro SendGrid: {str(e)}")
+        
+        # Fallback: salva localmente
+        save_lead_locally(name, email, message)
+        
         # NUNCA falhar para o cliente!
         return jsonify({
-            "success": True,  # ⚠️ Retorna SUCESSO mesmo com erro
+            "success": True,
             "message": "✅ Recebemos sua proposta! Confirmarei por email em breve."
         })
 
-# 🔍 Rota de diagnóstico (remova depois)
-@app.route('/debug/email')
-def debug_email():
-    """Diagnóstico do email - REMOVER EM PRODUÇÃO"""
-    has_creds = bool(EMAIL_USER and EMAIL_PASSWORD)
-    
-    return jsonify({
-        "email_configured": has_creds,
-        "email_user": EMAIL_USER[:3] + "***" if EMAIL_USER else None,
-        "env_vars": {k: "***" if "PASS" in k else v 
-                    for k, v in os.environ.items() 
-                    if "EMAIL" in k or "RENDER" in k}
-    })
+def save_lead_locally(name, email, message):
+    """Salva lead em arquivo temporário como backup"""
+    try:
+        lead_data = f"{datetime.now()}|{name}|{email}|{message}\n"
+        with open('/tmp/leads.txt', 'a', encoding='utf-8') as f:
+            f.write(lead_data)
+        print(f"📝 Lead salvo localmente: {name}")
+    except Exception as e:
+        print(f"⚠️  Erro ao salvar lead: {e}")
+
+# 🔍 Rota para visualizar leads (APENAS PARA DEBUG)
+@app.route('/debug/leads')
+def view_leads():
+    """Mostra leads recebidos"""
+    try:
+        with open('/tmp/leads.txt', 'r', encoding='utf-8') as f:
+            leads = f.read()
+        return f"<pre>{leads}</pre>"
+    except:
+        return "<pre>Nenhum lead ainda</pre>"
+
+# 🩺 Rota de saúde
+@app.route('/health')
+def health():
+    return jsonify({"status": "healthy", "service": "portfolio"})
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("🚀 Portfólio Victor - Servidor Flask")
-    print(f"📧 Email configurado: {'✅ SIM' if EMAIL_USER and EMAIL_PASSWORD else '❌ NÃO'}")
-    print(f"🌐 Host: 0.0.0.0 | Porta: {os.environ.get('PORT', 5000)}")
+    print("🚀 Portfólio Victor - SendGrid Email")
+    print(f"📧 SendGrid configurado: {'✅ SIM' if SENDGRID_API_KEY else '❌ NÃO'}")
     print("=" * 60)
     
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
