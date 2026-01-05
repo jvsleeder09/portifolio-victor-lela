@@ -182,15 +182,15 @@ footer p{margin-top:10px;font-size:0.9rem}
 /* 1. Ícones de contato NO DESKTOP - VOLTAR PARA 50px */
 @media screen and (min-width:769px){
     .contact-icon{
-        width: 50px !important;        /* VOLTAR PARA 50px */
-        height: 50px !important;       /* VOLTAR PARA 50px */
-        min-width: 50px !important;    /* VOLTAR PARA 50px */
-        font-size: 1.2rem !important;  /* Aumentar ícone também */
-        border-radius: 50% !important; /* Garantir que fique redondo */
+        width: 20px !important;        /* VOLTAR PARA 50px */
+        height: 20px !important;       /* VOLTAR PARA 50px */
+        min-width: 20px !important;    /* VOLTAR PARA 50px */
+        font-size: 0.9rem !important;  /* Aumentar ícone também */
+        border-radius: 20% !important; /* Garantir que fique redondo */
     }
     .contact-item{
-        gap: 15px !important;          /* Espaço entre ícone e texto */
-        margin-bottom: 25px !important; /* Espaço entre itens */
+        gap: 10px !important;          /* Espaço entre ícone e texto */
+        margin-bottom: 15px !important; /* Espaço entre itens */
     }
     .contact-item h4{
         font-size: 1.1rem !important;
