@@ -6,34 +6,117 @@ let currentProjects = MY_PROJECTS;
 let currentFilter = 'all';
 let currentPage = 1;
 
+// ============================================
+// FORMULÁRIO DE CONTATO - CORRIGIDO
+// ============================================
+
+async function sendContactForm(formData) {
+    const submitBtn = document.querySelector('#contactForm button[type="submit"]');
+    const formMessage = document.getElementById('formMessage');
+    const originalText = submitBtn.innerHTML;
+    
+    try {
+        // Feedback visual
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        submitBtn.disabled = true;
+        if (formMessage) formMessage.style.display = 'none';
+        
+        console.log('📤 Enviando para API:', formData);
+        
+        // Enviar para SEU Flask
+        const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        console.log('📥 Resposta API:', result);
+        
+        // Mostrar mensagem
+        if (formMessage) {
+            formMessage.innerHTML = result.message;
+            formMessage.style.display = 'block';
+            
+            if (result.success) {
+                formMessage.style.background = 'rgba(16, 185, 129, 0.15)';
+                formMessage.style.border = '2px solid #10B981';
+                formMessage.style.color = '#10B981';
+                document.getElementById('contactForm').reset();
+            } else {
+                formMessage.style.background = 'rgba(239, 68, 68, 0.15)';
+                formMessage.style.border = '2px solid #EF4444';
+                formMessage.style.color = '#EF4444';
+            }
+        }
+        
+        // Auto-esconder mensagem
+        setTimeout(() => {
+            if (formMessage) formMessage.style.display = 'none';
+        }, 5000);
+        
+    } catch (error) {
+        console.error('❌ Erro:', error);
+        
+        if (formMessage) {
+            formMessage.innerHTML = '⚠️ Erro de conexão. Use o email direto abaixo.';
+            formMessage.style.background = 'rgba(245, 158, 11, 0.15)';
+            formMessage.style.border = '2px solid #F59E0B';
+            formMessage.style.color = '#F59E0B';
+            formMessage.style.display = 'block';
+        }
+        
+    } finally {
+        // Restaurar botão
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+function setupContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (!contactForm) {
+        console.error('❌ Formulário não encontrado!');
+        return;
+    }
+    
+    console.log('✅ Formulário configurado');
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // IMPEDE o comportamento padrão
+        
+        // Coletar dados
+        const formData = {
+            name: this.querySelector('[name="name"]').value.trim(),
+            email: this.querySelector('[name="email"]').value.trim(),
+            message: this.querySelector('[name="message"]').value.trim()
+        };
+        
+        console.log('📝 Dados do formulário:', formData);
+        
+        // Validar
+        if (!formData.name || !formData.email || !formData.message) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+        
+        // Enviar
+        sendContactForm(formData);
+    });
+}
+
+// ============================================
+// RESTANTE DO CÓDIGO (mantenha igual)
+// ============================================
+
 // INICIALIZAR QUANDO PÁGINA CARREGAR
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Portfólio inicializando...');
     
     // 1. Inicializar partículas
-    initParticles();
-    
-    // 2. Configurar links clicáveis
-    setupClickableLinks();
-    
-    // 3. Configurar eventos
-    setupEventListeners();
-
-    // 4. Renderizar categorias dinamicamente
-    generateCategoryFilters();
-    
-    // 5. Renderizar projetos
-    renderProjects();
-    
-    // 6. Atualizar footer stats
-    updateFooterStats();
-
-    // 7. Configurar telefone protegido
-    setupProtectedPhone();
-});
-
-// INICIALIZAR PARTÍCULAS
-function initParticles() {
     if (typeof particlesJS !== 'undefined') {
         particlesJS('particles-js', {
             particles: {
@@ -68,10 +151,8 @@ function initParticles() {
             }
         });
     }
-}
-
-// CONFIGURAR LINKS CLICÁVEIS
-function setupClickableLinks() {
+    
+    // 2. Configurar links clicáveis
     // GitHub
     const githubProfile = document.getElementById('githubProfile');
     if (githubProfile) {
@@ -79,7 +160,7 @@ function setupClickableLinks() {
         githubProfile.onclick = () => window.open('https://github.com/ProfissionalJV/Portifolio-MCom', '_blank');
     }
     
-    // LinkedIn - CORRIGIDO
+    // LinkedIn
     const linkedinProfile = document.getElementById('linkedinProfile');
     if (linkedinProfile) {
         linkedinProfile.style.cursor = 'pointer';
@@ -92,16 +173,18 @@ function setupClickableLinks() {
         contactEmail.style.cursor = 'pointer';
         contactEmail.onclick = () => window.location.href = 'mailto:victorarsego1@gmail.com';
     }
+    
+    // 3. Formulário de contato
+    setupContactForm();
+    
+    // 4. Renderizar projetos
+    renderProjects();
+    
+    // 5. Atualizar footer stats
+    updateFooterStats();
+});
 
-     // Telefone (WhatsApp)
-    const contactPhone = document.getElementById('contact-phone');
-    if (contactPhone) {
-        contactPhone.style.cursor = 'pointer';
-        contactPhone.onclick = () => window.open('https://wa.me/5561999682366', '_blank');
-    }
-}
-
-// ATUALIZAR FOOTER STATS
+// FUNÇÕES EXISTENTES (mantenha igual)
 function updateFooterStats() {
     const totalStars = MY_PROJECTS.reduce((sum, p) => sum + p.stars, 0);
     const totalForks = MY_PROJECTS.reduce((sum, p) => sum + p.forks, 0);
@@ -131,32 +214,6 @@ function updateFooterStats() {
     `;
 }
 
-function generateCategoryFilters() {
-    const filterContainer = document.getElementById('filterButtons');
-    if (!filterContainer) return;
-
-    // Coletar categorias únicas
-    const categories = [...new Set(MY_PROJECTS.map(p => p.category))];
-
-    // Remover botões antigos (menos all e featured)
-    filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
-        const filter = btn.getAttribute('data-filter');
-        if (filter !== 'all' && filter !== 'featured') {
-            btn.remove();
-        }
-    });
-
-    // Criar botões dinamicamente
-    categories.forEach(category => {
-        const btn = document.createElement('button');
-        btn.className = 'filter-btn';
-        btn.setAttribute('data-filter', category);
-        btn.textContent = category;
-        filterContainer.appendChild(btn);
-    });
-}
-
-// RENDERIZAR PROJETOS
 function renderProjects() {
     const container = document.getElementById('projectsContainer');
     if (!container) return;
@@ -243,18 +300,16 @@ function renderProjects() {
     });
 }
 
-// FUNÇÃO PARA OBTER ÍCONE DO PROJETO
 function getProjectIcon(category) {
-   const icons = {
-    'Workflow Automation': 'fas fa-briefcase',
-    'Web Interfaces': 'fas fa-globe',
-    'Document Systems': 'fas fa-folder-open',
-    'Data Extraction': 'fas fa-database'
+    const icons = {
+        'Workflow Automation': 'fas fa-briefcase',
+        'Web Interfaces': 'fas fa-globe',
+        'Document Systems': 'fas fa-folder-open',
+        'Data Extraction': 'fas fa-database'
     };
     return icons[category] || 'fas fa-code';
 }
 
-// MOSTRAR DETALHES DO PROJETO
 function showProjectDetails(projectId) {
     const project = MY_PROJECTS.find(p => p.id === projectId);
     if (!project) return;
@@ -348,287 +403,4 @@ function showProjectDetails(projectId) {
             document.body.removeChild(modal);
         }
     });
-}
-
-// APLICAR FILTRO
-function applyFilter(filter) {
-    currentFilter = filter;
-    currentPage = 1;
-    
-    if (filter === 'all') {
-        currentProjects = MY_PROJECTS;
-    } else if (filter === 'featured') {
-        currentProjects = MY_PROJECTS.filter(p => p.featured);
-    } else if (filter === 'Python') {
-        currentProjects = MY_PROJECTS.filter(p => p.technologies.includes('Python'));
-    } else {
-        currentProjects = MY_PROJECTS.filter(p => p.category === filter);
-    }
-    
-    // Aplicar busca se houver
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput && searchInput.value) {
-        const searchTerm = searchInput.value.toLowerCase();
-        currentProjects = currentProjects.filter(p => 
-            p.name.toLowerCase().includes(searchTerm) ||
-            p.description.toLowerCase().includes(searchTerm) ||
-            p.technologies.some(t => t.toLowerCase().includes(searchTerm)) ||
-            p.topics.some(t => t.toLowerCase().includes(searchTerm))
-        );
-    }
-    
-    renderProjects();
-}
-
-// CONFIGURAR EVENT LISTENERS
-function setupEventListeners() {
-    // Filtros
-    const filterContainer = document.querySelector('.filter-buttons');
-    if (filterContainer) {
-        filterContainer.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-btn')) {
-                // Atualizar botão ativo
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                e.target.classList.add('active');
-                
-                // Aplicar filtro
-                const filter = e.target.getAttribute('data-filter');
-                applyFilter(filter);
-            }
-        });
-    }
-    
-    // Busca
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            applyFilter(currentFilter);
-        });
-    }
-    
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-                
-                // Atualizar navegação ativa
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    link.classList.remove('active');
-                });
-                this.classList.add('active');
-            }
-        });
-    });
-    
-   // ============================================
-// FORMULÁRIO DE CONTATO - FLASK PERSONALIZADO
-// ============================================
-
-async function sendContactForm(formData) {
-    const submitBtn = document.querySelector('#contactForm button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    
-    try {
-        // Feedback visual
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-        submitBtn.disabled = true;
-        
-        // Enviar para SEU Flask
-        const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            // SUCESSO - mostrar feedback amigável
-            showFormMessage('success', result.message);
-            document.getElementById('contactForm').reset();
-        } else {
-            // ERRO - mostrar email alternativo
-            showFormMessage('error', 
-                result.message + '<br><br>' +
-                '<strong>📧 Envie diretamente para:</strong><br>' +
-                '<a href="mailto:victorarsego1@gmail.com" style="color: white; text-decoration: underline;">victorarsego1@gmail.com</a>'
-            );
-        }
-        
-    } catch (error) {
-        // ERRO DE REDE - email direto
-        showFormMessage('error', 
-            'Problema de conexão.<br><br>' +
-            '<strong>📧 Use o email direto:</strong><br>' +
-            '<a href="mailto:victorarsego1@gmail.com" style="color: white; text-decoration: underline;">victorarsego1@gmail.com</a>'
-        );
-        console.error('Erro:', error);
-        
-    } finally {
-        // Restaurar botão
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }
-}
-
-function showFormMessage(type, message) {
-    // Criar ou atualizar div de mensagem
-    let messageDiv = document.getElementById('formMessage');
-    
-    if (!messageDiv) {
-        messageDiv = document.createElement('div');
-        messageDiv.id = 'formMessage';
-        messageDiv.style.cssText = `
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 0.95rem;
-        `;
-        document.getElementById('contactForm').appendChild(messageDiv);
-    }
-    
-    // Estilo por tipo
-    if (type === 'success') {
-        messageDiv.style.background = 'rgba(16, 185, 129, 0.2)';
-        messageDiv.style.border = '2px solid #10B981';
-        messageDiv.style.color = '#10B981';
-    } else {
-        messageDiv.style.background = 'rgba(239, 68, 68, 0.2)';
-        messageDiv.style.border = '2px solid #EF4444';
-        messageDiv.style.color = '#EF4444';
-    }
-    
-    // Conteúdo
-    messageDiv.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
-        ${message}
-    `;
-    messageDiv.style.display = 'block';
-    
-    // Auto-esconder após 8 segundos
-    setTimeout(() => {
-        messageDiv.style.display = 'none';
-    }, 8000);
-}
-
-// Inicializar formulário
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Coletar dados
-            const formData = {
-                name: this.querySelector('[name="name"]').value.trim(),
-                email: this.querySelector('[name="email"]').value.trim(),
-                message: this.querySelector('[name="message"]').value.trim()
-            };
-            
-            // Validar
-            if (!formData.name || !formData.email || !formData.message) {
-                showFormMessage('error', 'Preencha todos os campos obrigatórios.');
-                return;
-            }
-            
-            // Enviar
-            sendContactForm(formData);
-        });
-    }
-});
-            // Restaurar botão
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    });
-}
-    // Atualizar navegação ativa no scroll
-    window.addEventListener('scroll', function() {
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-links a');
-        
-        let currentSection = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.scrollY >= (sectionTop - 100)) {
-                currentSection = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSection}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-    // Adicione esta função NO FINAL do seu main.js (antes do fechamento)
-function setupProtectedPhone() {
-    const revealBtn = document.getElementById('whatsappRevealer');
-    const phoneContainer = document.getElementById('phoneContainer');
-    const realPhoneNumber = document.getElementById('realPhoneNumber');
-    const whatsappLink = document.getElementById('whatsappLink');
-    
-    if (!revealBtn) return; // Se não existir, sai
-    
-    // Número ofuscado em partes - DIFICULTA SCRAPERS
-    const phoneData = {
-        country: '55',
-        ddd: '61',
-        part1: '999',
-        part2: '68',
-        part3: '23',
-        part4: '66'
-    };
-    
-    revealBtn.addEventListener('click', function() {
-        // Constrói o número completo
-        const fullNumber = `+${phoneData.country} (${phoneData.ddd}) ${phoneData.part1}${phoneData.part2}-${phoneData.part3}${phoneData.part4}`;
-        const cleanNumber = phoneData.country + phoneData.ddd + phoneData.part1 + phoneData.part2 + phoneData.part3 + phoneData.part4;
-        
-        // Mostra o número
-        realPhoneNumber.textContent = fullNumber;
-        phoneContainer.style.display = 'block';
-        
-        // Configura link do WhatsApp
-        whatsappLink.href = `https://wa.me/${cleanNumber}`;
-        whatsappLink.target = '_blank';
-        
-        // Atualiza o botão
-        this.innerHTML = '<i class="fas fa-check"></i> Número Revelado';
-        this.classList.add('revealed');
-        this.disabled = true;
-        
-        // Log (para você monitorar quem revela)
-        console.log('🔒 WhatsApp número revelado por visitante');
-        
-        // Adiciona evento de clique no número para copiar
-        realPhoneNumber.style.cursor = 'pointer';
-        realPhoneNumber.title = 'Clique para copiar';
-        realPhoneNumber.onclick = function() {
-            navigator.clipboard.writeText(fullNumber.replace(/\D/g, '')).then(() => {
-                const originalText = this.textContent;
-                this.textContent = '✓ Copiado!';
-                setTimeout(() => this.textContent = originalText, 2000);
-            });
-        };
-    });
-}
-
 }
