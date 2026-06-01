@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academia de Ciências Físicas</title>
+    <style>
+        /* Corpo da Página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #6389f1;
+            margin: 20px;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px black;
+            margin-bottom: 10px;
+        }
+
+        /* Container da tabela */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px auto;
+            max-width: 1300px; 
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+        }
+
+        /* Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: linear-gradient(145deg, #0c2244, #00001a);
+            border: 2px solid #09008b;
+        }
+
+        /* Cabeçalho */
+        th {
+            background-color: #000952;
+            color: #f1f1f1;
+            font-size: 1.2em;
+            padding: 15px 5px;
+            border: 1px solid #00208b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Células da tabela */
+        td {
+            background: linear-gradient(145deg, #3454ad, #00081a);
+            color: #f5f5f5;
+            padding: 10px 8px;
+            border: 1px solid #00208b;
+            vertical-align: top; 
+            text-align: left;
+        }
+
+        /* Colunas Resumo, Imagem e Videos */
+        .resumo-cell {
+            vertical-align: top;
+            width: 40%; 
+        }
+
+        .image-cell {
+            vertical-align: middle;
+            text-align: center;
+            width: 30%; 
+        }
+
+        .video-cell {
+            vertical-align: middle;
+            text-align: center;
+            width: 30%; 
+        }
+
+        /* Mini coluna para o assunto */
+        .assunto-titulo {
+            display: block;
+            background-color: #000952;
+            color: #ffffff;
+            padding: 8px 12px;
+            margin: -10px -8px 10px -8px; 
+            border-radius: 5px 5px 0 0;
+            border-bottom: 2px solid #4d68ff;
+            font-size: 1.2em;
+            text-align: center;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Ajuste pro parágrafo da coluna resumo */
+        .resumo-cell p {
+            margin: 5px 0 0 0;
+            line-height: 1.5;
+        }
+
+        /* Efeito mouse */
+        tr:hover td {
+            background: linear-gradient(145deg, #2a41a5, #00032a);
+        }
+
+        tr:hover .assunto-titulo {
+            background-color: #0a1a62;
+        }
+
+        /* Tamanho das Imagens */
+        img {
+            max-width: 95%;
+            height: auto;
+            border-radius: 8px;
+            border: 2px solid #4d68ff;
+            box-shadow: 0 4px 8px black;
+        }
+
+        /* Tamanho dos Videos */
+        iframe {
+            width: 100%; 
+            height: 200px; 
+            border: 2px solid #4d68ff;
+            border-radius: 24px;
+            box-shadow: 0 4px 8px black;
+        }
+
+        /* Rodapé */
+        footer {
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Academia de Ciências Físicas</h1>
+    <p><strong>10 conceitos fundamentais da Física</strong></p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Resumo</th>
+                    <th>Imagem</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Leis de Newton</strong></span>
+                        <p>As três leis de Newton formam a base da dinâmica, área da Física que estuda o movimento dos corpos e as suas causas. Essas leis foram introduzidas pelo matemático, filósofo, astrônomo e físico Isaac Newton em seu livro Princípios matemáticos da filosofia natural, de 1687. Considerado um gênio da Ciência, Newton deixou diversas contribuições que permanecem até hoje, como a lei da gravitação universal.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://i.pinimg.com/736x/c5/50/f2/c550f2d94778975215f3fcea76657770.jpg" alt="Leis de Newton">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/B2u8FYE9fWk?si=y2pXhvYgRFjL04V7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Termodinâmica</strong></span>
+                        <p>A Termodinâmica é a área da Física que estuda diversos fenômenos e sistemas físicos complexos em que podem ocorrer trocas de calor, transformações de energia e variações de temperatura. A Termodinâmica é regida por quatro leis, que nos permitem descrever diversos sistemas por meio de variáveis, como pressão, volume, temperatura, calor e entropia.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://static.preparaenem.com/2022/10/termodinamica.jpg" alt="Termodinâmica">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/GYxXCr6HXcw?si=RI9KIdglULAc7dAL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Eletromagnetismo</strong></span>
+                        <p>O eletromagnetismo é uma área de estudo da Física que analisa os fenômenos elétricos e os fenômenos magnéticos de maneira unificada. Durante o ensino médio, para facilitar a compreensão, o eletromagnetismo é estudado separado em duas áreas: eletricidade e magnetismo. A eletricidade abrange os estudos da eletrostática, desde lei de Coulomb até a lei de Gauss, e da eletrodinâmica, desde potencial elétrico até circuitos elétricos. Já o magnetismo abrange os estudos desde o campo magnético até as equações de Maxwell.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://media.istockphoto.com/id/1160750069/pt/vetorial/magnetic-field-and-electromagnetism-types-of-magnets-horseshoe-magnet-bar-magnet-and.jpg?s=612x612&w=0&k=20&c=z5mCTs6oaEep7w3xKOFrOEbVmHAjgYaoaat4t2DdLtE=" alt="Eletromagnetismo">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/EOrQnkL9IxY?si=m40OEzWXM7DO7dt9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Relatividade (Einstein)</strong></span>
+                        <p>A teoria da relatividade é a terminologia dada à teoria da relatividade restrita e à teoria da relatividade geral. Funciona para quaisquer problemas relacionados a corpos que se movimentam em velocidades próximas à da luz. Seus postulados são o princípio da relatividade restrita e o princípio de constância da velocidade da luz. Com base na teoria da relatividade restrita foi possível concluir que a velocidade da luz é a velocidade máxima no vácuo; a ausência do éter; o princípio da simultaneidade; a dilatação do tempo; e a contração do comprimento.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://www.gov.br/aeb/pt-br/assuntos/noticias/on-reune-acervo-fotografico-que-comprova-a-teoria-da-relatividade-geral/teoria-da-relatividade-on_1.jpg" alt="Relatividade">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/cIeK5eNDnhE?si=r4GkeyFBQgEaLVVD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Mecânica Quântica</strong></span>
+                        <p>A mecânica quântica estuda os fenômenos microscópicos das dimensões dos átomos, moléculas e outras partículas subatômicas, como os elétrons, prótons e nêutrons. Nessa escala, as leis da Física são completamente diferentes da mecânica clássica. Diversos fenômenos da natureza só passaram a ser bem compreendidos à luz da mecânica quântica, como a estrutura dos átomos, as ligações químicas, o decaimento radioativo, o desenvolvimento do transistor, a fissão e fusão nuclear, o descobrimento das partículas elementares, os superfluidos e supercondutores, os computadores quânticos, entre muitos outros.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://www.inovacaotecnologica.com.br/noticias/imagens/010165220602-experimento-brasileiro-fisica-quantica-3.jpg" alt="Mecânica Quântica">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/84Bhoyo2yCM?si=anAijkbCn1FiRrPK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Óptica</strong></span>
+                        <p>A Óptica é a parte da Física Clássica dedicada ao estudo da luz, seus fenômenos e como ela interage com a matéria. A Óptica é subdivida em Óptica Física e Óptica Geométrica. Os princípios da Óptica são: princípio da propagação retilínea dos raios luminosos, princípio da reversibilidade dos raios de luminosos, princípio da independência dos raios luminosos e princípio de Fermat. A luz se propaga através feixes paralelos, feixes divergentes e feixes convergentes. Os tipos de meios na Óptica são meio opaco, meio translúcido e meio transparente. As fontes de emissão de luz são primárias ou secundárias. Os principais fenômenos ópticos estudados são: reflexão, refração, absorção, dispersão, interferência e difração.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://www.researchgate.net/profile/Aniel-Morais/publication/305318165/figure/fig2/AS:383831484977153@1468523965167/Conceitos-de-fisica-optica-Podemos-observar-atraves-dos-conceitos-apresentados-que-a.png" alt="Óptica">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/mqjWQYX6hxs?si=lr9ZHbwvsu1VR_i9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Ondas</strong></span>
+                        <p>Ondas são perturbações que ocorrem em um meio que, ao atingirem um obstáculo ou serem atingidas por determinada frequência, apresentam diferentes fenômenos ondulatórios. As ondas podem ser periódicas, quando oscilam com o mesmo comprimento de onda em tempos iguais, ou estacionárias, quando oscilam de maneira estacionária. Os elementos das ondas são: crista, vale, comprimento de onda, amplitude, período, frequência e velocidade de propagação da onda. As ondas são classificadas a partir da sua natureza, direção de vibração e número de dimensões da propagação da sua energia. Os fenômenos ondulatórios são: reflexão, refração, absorção, polarização, dispersão, difração, interferência e ressonância.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://s4.static.brasilescola.uol.com.br/be/2023/07/elementos-ondas-ondulatoria.jpg" alt="Ondas">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/M2D5-zXlD6A?si=WhJtmpbEIYdy2jDz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Física Nuclear</strong></span>
+                        <p>A Física Nuclear estuda os fenômenos físicos relativos aos núcleos atômicos, como transições de energia, decaimentos radioativos, fissão e fusão nuclear, entre outros. O estudo da Física Nuclear envolve o desenvolvimento de modelos que expliquem o funcionamento dos núcleos atômicos e sua constituição, aplicações da energia nuclear em tratamentos médicos, desenvolvimento de tecnologias para a detecção de radiação, novas fontes de energia, etc.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://portal.if.usp.br/fnc/sites/portal.if.usp.br.fnc/files/GRIPe-Processos-pt-br.png" alt="Física Nuclear">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/Eb5Atol3H4Q?si=HflGIwm-ZYOigOFa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Astrofísica</strong></span>
+                        <p>A astrofísica é a área da Astronomia que estuda o universo e seus corpos celestes através das leis da Física e Química. Na astrofísica usamos as lunetas astronômicas, telescópios terrestres, fotômetros, radiotelescópios, telescópios espaciais e observatórios. A astrofísica se divide nas linhas de pesquisa: astrofísica de altas energias, cosmologia, astrofísica óptica e no infravermelho, astrofísica de ondas gravitacionais, e radiofísica solar e do meio interplanetário. O astrofísico estuda os comportamentos e fenômenos associados aos planetas, galáxias, estrelas, constelações e tudo que existe no universo pela visão das leis da Física.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://tuacarreira.com/wp-content/uploads/2023/03/temas-para-tcc-astrofisica.jpg" alt="Astrofísica">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/RZXhfVMTbd0?si=9mmHXYhY1CUaD-JT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="resumo-cell">
+                        <span class="assunto-titulo"><strong>Cinemática</strong></span>
+                        <p>A Cinemática é a parte da Mecânica Clássica que permite calcularmos a distância percorrida, a velocidade e a aceleração dos corpos. Na Cinemática estudamos o movimento retilíneo uniforme, movimento retilíneo uniformemente variado, movimento circular uniforme e movimento circular uniformemente variado. Existem dois tipos de Cinemática: Cinemática Escalar e Cinemática Vetorial. A Cinemática Escalar não descreve o movimento em termos do módulo, direção e sentido. A Cinemática Vetorial descreve o movimento em termos do módulo, direção e sentido.</p>
+                    </td>
+                    <td class="image-cell">
+                        <img src="https://enfisica.com/wp-content/uploads/Cinematica-en-fisica.jpg" alt="Cinemática">
+                    </td>
+                    <td class="video-cell">
+                        <iframe src="https://www.youtube.com/embed/Mz4s3JDIv8A?si=5zQhLMYS1VTPJxZF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Academia de Ciências Físicas - Página informativa</p>
+    </footer>
+</body>
+</html>

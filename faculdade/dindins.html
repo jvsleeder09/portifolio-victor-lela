@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Dindins Dona Socorro · Gelados Artesanais</title>
+  <!-- Bootstrap 5 CDN (CSS + JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+    font-family: 'Inter', sans-serif;
+    /* Imagem + sobreposição suave */
+    background: linear-gradient(rgba(77, 155, 223, 0.7), rgba(224, 135, 181, 0.7)), rgba(236, 144, 192, 0.7);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #000000;
+    scroll-behavior: smooth;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(4px);
+      border-radius: 2rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+      transition: all 0.3s ease;
+    }
+
+    .glow-border {
+      transition: box-shadow 0.25s ease, transform 0.2s ease;
+      border: none;
+      box-shadow: 0 8px 20px rgba(200, 0, 190, 0.1), 0 0 0 1px rgba(255, 245, 220, 0.9);
+    }
+
+    .glow-border:hover {
+      box-shadow: 0 18px 30px rgba(220, 80, 220, 0.25), 0 0 0 2px rgba(255, 255, 245, 0.8), 0 0 12px #f700e2;
+      transform: translateY(-5px);
+    }
+
+    .btn-fresh {
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      backdrop-filter: blur(2px);
+      border-radius: 60px;
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      color: #b61a82;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(250, 190, 240, 0.7);
+    }
+
+    .btn-fresh:hover {
+      background: white;
+      box-shadow: 0 8px 22px rgba(253, 0, 232, 0.4), 0 0 0 2px #ffffff, 0 0 14px #a0ddff;
+      transform: scale(1.02);
+      color: #b61a82;
+    }
+
+    .btn-primary-glow {
+      background: linear-gradient(115deg, #ffb7d2, #ffb5f5);
+      border: none;
+      font-weight: 600;
+      color: #b61a82;
+      padding: 0.7rem 1.8rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px; 
+      box-shadow: 0 4px 12px rgba(255, 160, 223, 0.3), 0 0 0 1px #fff9f0;
+    }
+
+    .btn-primary-glow:hover {
+      background: linear-gradient(115deg, #ffc0da, #ffb5f5);
+      box-shadow: 0 8px 24px rgba(255, 10, 181, 0.4), 0 0 0 2px white, 0 0 20px #ffc8e0;
+      transform: translateY(-2px);
+      color: #b61a82;
+    }
+
+    .product-card {
+      background: rgba(253, 235, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 1.75rem;
+      overflow: hidden;
+      transition: all 0.25s;
+      height: 100%;
+    }
+
+    .product-img {
+      height: auto;
+      object-fit: cover;
+      background: #fdeff2;
+      width: 100%;
+      border-bottom: 2px solid rgba(253, 235, 255, 0.8);
+    }
+
+    .price-tag {
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: #b61a82;
+      background: rgba(253, 235, 255, 0.8);
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      backdrop-filter: blur(2px);
+    }
+
+    .navbar-fresh {
+      background: rgba(255, 248, 240, 0.7);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(255, 245, 253, 0.8);
+    }
+
+    .logo-img {
+      height: 48px;
+      width: auto;
+      margin-right: 12px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+      transition: transform 0.2s ease;
+    }
+    .logo-img:hover {
+      transform: scale(1.02);
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      color: #b61a82;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #b61a82 !important;
+      margin: 0 0.25rem;
+    }
+
+    .nav-link:hover {
+      text-shadow: 0 0 5px #ffb5fb;
+      color: #b61a82 !important;
+    }
+
+    footer {
+      background: rgba(250, 242, 245, 0.6);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(255, 255, 245, 0.9);
+    }
+
+    .hero-geladinho {
+      border-radius: 2rem;
+      background: rgba(255, 255, 250, 0.55);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05), 0 0 0 1px rgba(253, 235, 255, 0.8);
+    }
+
+    .form-control-fresh {
+      background: rgba(255, 255, 250, 0.8);
+      border: 1px solid rgba(253, 235, 255, 0.8);
+      border-radius: 60px;
+      padding: 0.7rem 1.2rem;
+      transition: all 0.2s;
+    }
+    .form-control-fresh:focus {
+      background: white;
+      border-color: #ffb7cc;
+      box-shadow: 0 0 0 4px rgba(255, 180, 200, 0.3);
+    }
+
+    .badge-flavor {
+      background: rgba(253, 235, 255, 0.8);
+      color: #b61a82;
+      border-radius: 50px;
+      font-weight: 500;
+      padding: 0.3rem 0.9rem;
+    }
+
+    @keyframes suavePiscar {
+      0% { opacity: 0.7; text-shadow: 0 0 2px #ffcfdf; }
+      100% { opacity: 1; text-shadow: 0 0 8px #ffe0f0, 0 0 2px #ffb7c7; }
+    }
+    .vinheta-texto {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(253, 235, 255, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #b61a82;
+      animation: suavePiscar 2s infinite alternate;
+      border: 1px solid rgba(253, 235, 255, 0.8);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .vinheta-texto i {
+      font-size: 1.2rem;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.1));
+    }
+
+    .footer-logo {
+      height: 44px;
+      width: auto;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    }
+
+    /* fallback para imagens quebradas */
+    img {
+      background-color: #ffe0e6;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-fresh fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="img/Logo.png" alt="Logo Dindins Dona Socorro" class="logo-img rounded-circle shadow-sm" onerror="this.src='https://placehold.co/200x80/ffdad5/d47a94?text=🍧+DS'">
+        <span>Dindins Dona Socorro</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
+          <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sobre">História</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sabores">Sabores Gourmet</a></li>
+          <li class="nav-item"><a class="nav-link" href="#encomendar">Encomendar</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-5 mt-4">
+    <section id="inicio" class="container pt-5 mt-4">
+        <div class="row align-items-center py-5 my-3 hero-geladinho p-4 p-lg-5">
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <span class="badge-flavor d-inline-block mb-3"><i class="bi bi-stars"></i> Desde 1994 · Tradição &
+                    afeto</span>
+                <h1 class="display-4 fw-semibold" style="color: #b61a82;">Gelados artesanais que <br> despertam memórias
+                    afetivas</h1>
+                <p class="lead fs-5 mt-3" style="color: #0a0a0a;">Uma explosão de textura e sabor. Feitos com ingredientes
+                    selecionados, nossos dindins gourmet conquistam corações e trazem a nostalgia em cada mordida. Seja para
+                    reviver momentos ou criar novos, somos referência no segmento de gelados artesanais.</p>
+                <div class="mt-4 d-flex flex-wrap gap-3">
+                    <a href="#sabores" class="btn btn-primary-glow btn-fresh px-4 py-2"><i class="bi bi-cup-straw"></i>
+                        Conheça os sabores</a>
+                    <a href="#encomendar" class="btn btn-fresh"><i class="bi bi-chat-dots"></i> Faça sua encomenda</a>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="glass-card p-3 rounded-4 shadow-sm">
+                    <!-- VÍDEO 1080x1350 - Proporção 4:5 -->
+                    <video autoplay loop muted playsinline class="img-fluid rounded-4"
+                        style="max-height: 320px; width: auto; margin: 0 auto; display: block; object-fit: contain;">
+                        <source src="img/vinheta.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
+                    <div class="mt-3 d-flex justify-content-center">
+                        <div class="vinheta-texto">
+                            </i> Dindins da Dona Socorro — Sabor que refresca!</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre" class="container my-5 pt-4">
+      <div class="text-center mb-5">
+        <h2 class="display-6 fw-semibold" style="color: #b61a82;"><i class="bi bi-heart-fill" style="color: #e6839e;"></i> Nossa História & Diferenciais</h2>
+        <div class="mx-auto" style="width: 70px; height: 3px; background: linear-gradient(90deg, #ffb7cc, #a3dbff); border-radius: 4px;"></div>
+      </div>
+      <div class="row g-4 align-items-stretch">
+        <div class="col-md-6">
+          <div class="glass-card p-4 h-100 glow-border rounded-4">
+            <h3 class="fs-4 fw-bold"><i class="bi bi-tree-fill"></i> Raízes desde 1994</h3>
+            <p>Os Dindins Dona Socorro nasceram da paixão e visão empreendedora da nossa matriarca. Com insumos de altíssima qualidade e receitas familiares, construímos uma trajetória de sucesso. Somos <strong>apaixonados por dindins</strong> e entregamos uma experiência afetiva que aquece o coração e refresca o dia a dia.</p>
+            <p class="mb-0"> -> Confiança e credibilidade há mais de 28 anos<br> -> Atendimento diferenciado e proximidade com parceiros<br> -> Excelente margem de lucro para franqueados<br> -> Produção 100% artesanal e sabores exclusivos</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="glass-card p-4 h-100 glow-border rounded-4">
+            <h3 class="fs-4 fw-bold"><i class="bi bi-stars"></i> Por que somos únicos?</h3>
+            <p>Utilizamos frutas frescas, leite de qualidade, chocolate autêntico e muito carinho. Cada lote é criteriosamente preparado para garantir a cremosidade e os sabores marcantes. Nossa missão: levar o melhor do gelado artesanal com memória afetiva, expandindo negócios e encantando clientes.</p>
+            <div class="mt-3 d-flex gap-2 flex-wrap">
+              <span class="badge rounded-pill bg-white text-dark px-3 py-2 shadow-sm"><i class="bi bi-droplet"></i> 100% artesanal</span>
+              <span class="badge rounded-pill bg-white text-dark px-3 py-2 shadow-sm"><i class="bi bi-emoji-sunglasses"></i> Sabores nostálgicos</span>
+              <span class="badge rounded-pill bg-white text-dark px-3 py-2 shadow-sm"><i class="bi bi-gem"></i> Ingredientes premium</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sabores" class="container my-5 pt-3">
+      <div class="text-center mb-4">
+        <h2 class="display-6 fw-semibold" style="color:#b61a82;"><i class="bi bi-egg-fried"></i> Sabores que viram paixão</h2>
+        <p class="fs-5">Escolha seu preferido | Cada um é uma obra-prima gelada!</p>
+      </div>
+      <div class="row g-4" id="produtos-container"></div>
+      <div class="text-center mt-4">
+        <p class="fst-italic text-muted">*Valores sujeitos a alteração, consulte condições para atacado e franquias.</p>
+      </div>
+    </section>
+
+    <section id="encomendar" class="container my-5 pt-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="glass-card p-4 p-md-5 rounded-4 glow-border">
+            <div class="text-center mb-4">
+              <i class="bi bi-envelope-paper fs-1" style="color: #e07a9e;"></i>
+              <h2 class="mt-2">Encomende seus dindins gourmet</h2>
+              <p>Faça seu pedido e reviva a melhor experiência gelada. Atendemos festas, eventos, franquias e venda direta.</p>
+            </div>
+            <form id="formEncomenda">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Nome completo</label>
+                  <input type="text" class="form-control form-control-fresh" id="nomeCliente" placeholder="Seu nome" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">E-mail / Telefone</label>
+                  <input type="text" class="form-control form-control-fresh" id="contatoCliente" placeholder="(61) 99999-9999" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Escolha os sabores e quantidade</label>
+                  <textarea class="form-control form-control-fresh" rows="3" id="pedidoDetalhes" placeholder="Exemplo: 5 unidades de KitKat Crocante, 3x de Torta de Limão, 10 unidades sortidas..." required></textarea>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Data desejada (opcional)</label>
+                  <input type="date" class="form-control form-control-fresh" id="dataEntrega">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Mensagem ou observação</label>
+                  <input type="text" class="form-control form-control-fresh" id="obsPedido" placeholder="Retirada / Entrega...">
+                </div>
+                <div class="col-12 text-center mt-3">
+                  <button type="submit" class="btn btn-primary-glow btn-fresh px-5 py-2 fs-6"><i class="bi bi-send"></i> Solicitar encomenda</button>
+                </div>
+              </div>
+            </form>
+            <div id="statusMsg" class="alert mt-4 d-none" role="alert"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer id="contato" class="container-fluid mt-5 py-4">
+      <div class="container">
+        <div class="row align-items-center text-center text-md-start">
+          <div class="col-md-6 d-flex align-items-center gap-3 justify-content-center justify-content-md-start">
+            <img src="img/Logo.png" alt="Logo Dona Socorro" class="footer-logo rounded-circle shadow-sm" onerror="this.src='https://placehold.co/120x80/ffdad5/d47a94?text=🍧+DS'">
+            <div>
+              <h5 class="fw-bold mb-0"><i class="bi bi-instagram"></i> @ddonasocorro</h5>
+              <p class="mb-0">Acompanhe novidades, sorteios e novos sabores no Instagram e TikTok</p>
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <div class="mt-2">
+              <a href="https://www.instagram.com/ddonasocorro/" class="text-dark me-3" style="font-size: 1.5rem;"><i class="bi bi-instagram"></i></a>
+              <a href="https://www.tiktok.com/@donasocorro402" class="text-dark me-3" style="font-size: 1.5rem;"><i class="bi bi-tiktok"></i></a>
+              <a href="https://wa.me/5561991919292" class="text-dark" style="font-size: 1.5rem;"><i class="bi bi-whatsapp"></i></a>
+            </div>
+            <p class="mb-0 mt-2"><i class="bi bi-geo-alt"></i> Brasília · Atendimento para todo Brasil</p>
+            <p class="mb-0">📞 comercial@donasocorro.com | Franquias: (61) 9 9191-9292</p>
+          </div>
+        </div>
+        <div class="text-center mt-3 pt-2 border-top border-white border-opacity-50 d-flex flex-wrap justify-content-center align-items-center gap-2">
+          <span>💗 Delícia gelada que refresca a alma 💗</span>
+          <span class="vinheta-texto" style="font-size: 0.7rem; background: transparent; animation: none; padding: 0;">
+              <img src="img/logo2.png" alt="Logo" style="height: 24px; width: auto; border-radius: 50%;">
+              #SaborQueRefresca
+          </span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // LISTA DE SABORES /
+    const saboresData = [
+      { nome: "Coco com Abacaxi", descricao: "A união perfeita do frescor tropical! Misturamos a cremosidade irresistível do coco natural com pedaços suculentos de abacaxi selecionado. O resultado é um dindin gourmet com equilíbrio perfeito entre o doce e a leve acidez da fruta. É o sabor das férias em um saquinho.", preco: "R$ 12,50", imagem: "img/Coco com abacaxi.png" },
+      { nome: "Coco Quadradinho", descricao: "Uma experiência gelada de puro coco natural com leite, creme de leite, leite condensado e muito carinho envolvido. Sabe aquele sabor de infância com um toque gourmet incrivelmente cremoso? É esse! Perfeito para refrescar o seu dia com o melhor do nosso Quadradinho.", preco: "R$ 11,90", imagem: "img/coco.png" },
+      { nome: "Pudim de Leite", descricao: "A sobremesa mais amada do Brasil na versão mais refrescante que você já viu! Uma base ultra cremosa com sabor tradicional do pudim de leite condensado, finalizada com aquela calda de caramelo artesanal irresistível. É o clássico de domingo, direto para o seu saquinho.", preco: "R$ 12,90", imagem: "img/Pudim.png" },
+      { nome: "Mousse de Maracujá", descricao: "Intenso, cremoso e absurdamente refrescante. Nosso dindin gourmet de maracujá traz o sabor marcante da mousse aveludado que derrete na boca. Com a doçura certa e aquele azedinho irresistível, é impossível dar uma mordida só!", preco: "R$ 13,90", imagem: "img/Mousse de Maracujá.png" },
+      { nome: "Oreo Clássico", descricao: "O clássico dos biscoitos em sua versão mais gelada e cremosa! Uma base de leite super aveludada recheada com pedacinhos crocantes de biscoito Oreo espalhados por todo o saquinho. O contraste perfeito entre a cremosidade e a crocância.", preco: "R$ 13,90", imagem: "img/Oreo.png" },
+      { nome: "KitKat Crocante", descricao: "Para os apaixonados por chocolate! Uma base ultra cremosa combinada com o autêntico chocolate KitKat. O grande segredo está na textura: a cremosidade do dindin com a crocância inconfundíve do wafer. Uma tentação irresistível e perfeita para qualquer hora do dia.", preco: "R$ 14,90", imagem: "img/Kitkat.png" },
+      { nome: "Mousse de Limão", descricao: "O equilíbrio perfeito entre o doce e o cítrico! Inspirado na clássica torta de limão, este dindin gourmet traz um mousse levinho, cremoso e super refrescante, feito com suco puro da fruta e raspas de limão. A pedida ideal para os dias quentes que pedem um toque de frescor.", preco: "R$ 12,90", imagem: "img/Mousse de Limão.png" },
+      { nome: "Banoffee", descricao: "Uma explosão de texturas! Esse dindin traz a clássica combinação de bananas frescas selecionadas, um doce de leite cremoso de verdade, toque de chantilly e pedacinhos de biscoito. Uma sobremesa sofisticada e nostálgica, transformada em uma experiência super gelada.", preco: "R$ 12,90", imagem: "img/Banoffee.png" },
+      { nome: "Ninho com Nutella", descricao: "O queridinho absoluto! A combinação perfeita entre o sabor nobre e cremoso do leite Ninho com generosas camadas da autêntica Nutella. Cada mordida é uma mistura perfeita de texturas e sabores que vai te fazer suspirar. É o verdadeiro significado de dindin gourmet.", preco: "R$ 16,90", imagem: "img/Ninho com Nutella.png" },
+      { nome: "Mousse de Morango", descricao: "Feito com morangos frescos de verdade! Esse dindin gourmet tem a textura leve e aerada de um mousse caseiro, combinando a suavidade do leite com o sabor vibrante e natural do morango. Uma opção delicada, cremosa e cheia de sabor para adoçar a sua rotina com leveza.", preco: "R$ 13,50", imagem: "img/Mousse de Morango.png" },
+    ];
+
+    function renderizarProdutos() {
+      const container = document.getElementById('produtos-container');
+      if (!container) return;
+      container.innerHTML = '';
+      saboresData.forEach(sabor => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+        col.innerHTML = `
+          <div class="product-card glow-border h-100 d-flex flex-column">
+            <img src="${sabor.imagem}" class="product-img" alt="${sabor.nome}" onerror="this.src='https://placehold.co/600x400/fce4ec/eaa7bc?text=🍧+${encodeURIComponent(sabor.nome)}'">
+            <div class="p-3 d-flex flex-column flex-grow-1">
+              <div class="d-flex justify-content-between align-items-start">
+                <h4 class="fs-5 fw-bold mb-1">${sabor.nome}</h4>
+                <span class="price-tag small">${sabor.preco}</span>
+              </div>
+              <p class="mt-2 small" style="font-size: 0.85rem; color: #000000;">${sabor.descricao}</p>
+              <div class="mt-2 d-flex justify-content-between align-items-center pt-2">
+                <span class="badge-flavor"><i class="bi bi-cup-straw"></i> Gourmet</span>
+                <button class="btn-sm btn-fresh border-0 rounded-pill px-3 py-1 btn-pedir-rapido" data-sabor="${sabor.nome}">Pedir <i class="bi bi-cart-plus"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+
+      document.querySelectorAll('.btn-pedir-rapido').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const saborNome = btn.getAttribute('data-sabor');
+          const textarea = document.getElementById('pedidoDetalhes');
+          if (textarea) {
+            let atual = textarea.value.trim();
+            const linhaAdd = `1x ${saborNome}`;
+            if (atual === "") textarea.value = linhaAdd;
+            else textarea.value = atual + ", " + linhaAdd;
+            document.getElementById('encomendar').scrollIntoView({ behavior: 'smooth' });
+            const statusDiv = document.getElementById('statusMsg');
+            statusDiv.classList.remove('d-none');
+            statusDiv.className = 'alert alert-info mt-4';
+            statusDiv.innerHTML = `✨ ${saborNome} adicionado ao seu pedido! Complete os dados e envie. ✨`;
+            setTimeout(() => statusDiv.classList.add('d-none'), 2500);
+          }
+        });
+      });
+    }
+
+    const formEncomenda = document.getElementById('formEncomenda');
+    const msgBox = document.getElementById('statusMsg');
+
+    formEncomenda.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nomeCliente').value.trim();
+      const contato = document.getElementById('contatoCliente').value.trim();
+      const pedido = document.getElementById('pedidoDetalhes').value.trim();
+
+      if (!nome || !contato || !pedido) {
+        msgBox.classList.remove('d-none');
+        msgBox.className = 'alert alert-warning mt-4';
+        msgBox.innerHTML = '⚠️ Por favor, preencha nome, contato e detalhes do pedido antes de enviar.';
+        setTimeout(() => msgBox.classList.add('d-none'), 3200);
+        return;
+      }
+
+      msgBox.classList.remove('d-none');
+      msgBox.className = 'alert alert-success mt-4';
+      msgBox.innerHTML = `🍧 Obrigado, ${nome}! Recebemos seu pedido. Entraremos em contato via ${contato} em breve para confirmar os sabores e valores. Sabor e memória afetiva garantidos! 💙`;
+      formEncomenda.reset();
+      setTimeout(() => msgBox.classList.add('d-none'), 5000);
+    });
+
+    renderizarProdutos();
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId && targetId.startsWith('#')) {
+          e.preventDefault();
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

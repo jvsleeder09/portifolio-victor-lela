@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Interativo</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0f172a;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: moveLiquid 5s infinite alternate ease-in-out;
+        }
+
+        .blob1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #0047ab, #0038d1);
+            top: -150px;
+            left: -100px;
+            animation-duration: 5s;
+        }
+
+        .blob2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #800000, #b30e0e);
+            top: -100px;
+            right: -50px;
+            animation-delay: 5s;
+        }
+
+        .blob3 {
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, #0047ab, #0038d1);
+            bottom: -150px;
+            left: 10%;
+            animation-delay: 5s;
+        }
+
+        .blob4 {
+            width: 550px;
+            height: 550px;
+            background: linear-gradient(135deg, #800000, #b30e0e);
+            bottom: -200px;
+            right: -100px;
+            animation-delay: -15s;
+        }
+
+        @keyframes moveLiquid {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            33% {
+                transform: translate(50px, 80px) scale(1.1) rotate(20deg);
+            }
+            66% {
+                transform: translate(-30px, 40px) scale(0.9) rotate(-10deg);
+            }
+            100% {
+                transform: translate(20px, -20px) scale(1.05) rotate(10deg);
+            }
+        }
+
+        .container {
+            background: rgba(20, 20, 20, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(15, 15, 15, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.767);
+            width: 320px;
+            color: rgb(238, 236, 236);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        select option {
+            background-color: #1e293b;
+            color: white;
+            padding: 10px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #940808, #0047ab, #0038d1, #b30e0e);
+            background-size: 300% 300%;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(15, 34, 141, 0.5);
+            transition: all 0.4s ease;
+            animation: liquidGradient 6s ease infinite;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(8, 18, 155, 0.8);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes liquidGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="blob blob4"></div>
+
+    <div class="container">
+        <form id="loginForm">
+            <h2>Acesso ao Sistema</h2>
+
+            <div class="input-group">
+                <label for="matricula">Matrícula</label>
+                <input type="text" id="matricula" placeholder="Digite sua matrícula">
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="Digite sua senha">
+            </div>
+
+            <div class="selection-group">
+                <label for="cargo">Cargo</label>
+                <select id="cargo">
+                    <option value="">Selecione um cargo</option>
+                    <option value="Diretor">Diretor</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Aluno">Aluno</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button type="submit">Entrar</button>
+                <button type="reset">Limpar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const matricula = document.getElementById('matricula').value;
+            const senha = document.getElementById('senha').value;
+            const cargo = document.getElementById('cargo').value;
+
+            if (matricula === '' || senha === '' || cargo === '') {
+                alert("Erro: Por favor, preencha todos os campos!");
+            } else {
+                alert(`Bem-vindo! \nMatrícula: ${matricula} \nCargo: ${cargo}`);
+            }
+        });
+    </script>
+
+</body>
+</html>

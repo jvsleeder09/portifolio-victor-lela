@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jefferson Moraes</title>
+</head>
+
+<style>
+    /* RESET PADRÃO */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* BACKGROUND */
+    html {
+        background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('assets/Foto2.jpeg');
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-color: #111;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* MENU SUPERIOR */
+    .menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 15px 0;
+        text-align: center;
+        z-index: 1000;
+        border-bottom: 2px solid #3d5a80;
+        backdrop-filter: blur(10px);
+    }
+
+    .menu li {
+        display: inline;
+        list-style: none;
+        margin: 0 15px;
+    }
+
+    .menu a {
+        color: white;
+        text-decoration: none;
+        padding: 5px 10px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: 0.3s;
+    }
+
+    .menu a:hover {
+        color: #c2a379;
+    }
+
+    /* CONTAINER */
+    .cards-container {
+        display: grid;
+        grid-template-columns: 1fr 450px 1fr;
+        grid-auto-rows: min-content;
+        gap: 20px;
+        padding: 120px 40px 50px 40px;
+        max-width: 1600px;
+        margin: 0 auto;
+        align-items: start;
+    }
+
+    /* POSICIONAMENTO DOS CARDS */
+
+    /* Coluna da Esquerda (Cards 1 a 5) */
+    .card:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .card:nth-child(2) {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .card:nth-child(3) {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .card:nth-child(4) {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .card:nth-child(5) {
+        grid-column: 1;
+        grid-row: 5;
+    }
+
+    /* Coluna da Direita (Cards 6 a 10) */
+    .card:nth-child(6) {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    .card:nth-child(7) {
+        grid-column: 3;
+        grid-row: 2;
+    }
+
+    .card:nth-child(8) {
+        grid-column: 3;
+        grid-row: 3;
+    }
+
+    .card:nth-child(9) {
+        grid-column: 3;
+        grid-row: 4;
+    }
+
+    .card:nth-child(10) {
+        grid-column: 3;
+        grid-row: 5;
+    }
+
+    /* DESIGN DOS CARDS (EFEITO DE VIDRO) */
+    article.card {
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 300px;
+        min-height: 320px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.4s ease;
+        justify-self: center;
+    }
+
+    article.card:hover {
+        transform: translateY(-5px);
+        border-color: #c2a379;
+        background: rgba(0, 0, 0, 0.7);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* CONTEÚDO DO CARD */
+    article.card h2 {
+        color: #fff;
+        text-align: center;
+        font-size: 1.1rem;
+        border-bottom: 2px solid #3d5a80;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    article.card p {
+        color: #e0e0e0;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        font-style: italic;
+        max-height: 120px;
+        overflow-y: auto;
+        padding-right: 8px;
+        margin-bottom: 15px;
+        scrollbar-width: thin;
+        scrollbar-color: #3d5a80 transparent;
+    }
+
+    /* PLAYER DE ÁUDIO */
+    audio {
+        width: 100%;
+        height: 30px;
+        filter: invert(100%) opacity(0.8);
+    }
+
+    article.card footer {
+        color: #c2a379;
+        font-size: 0.7rem;
+        text-align: center;
+        margin-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 10px;
+    }
+
+
+    /* RODAPÉ DA PÁGINA */
+    .rodape-pagina {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        border-top: 2px solid #3d5a80;
+        color: #c2a379;
+        padding: 30px 10%;
+        text-align: center;
+        margin-top: 60px;
+        position: relative;
+        clear: both;
+    }
+
+    .rodape-pagina p {
+        font-size: 0.85rem;
+        line-height: 1.6;
+        max-width: 900px;
+        margin: 0 auto;
+        font-weight: 300;
+    }
+</style>
+
+
+
+<body>
+    <ul class="menu">
+        <li><a href="">Início</a></li>
+        <li><a href="">Sobre</a></li>
+        <li><a href="">Agenda</a></li>
+        <li><a href="">Músicas</a></li>
+        <li><a href="">Contatos</a></li>
+    </ul>
+
+    <div class="cards-container">
+        <article class="card">
+            <h2>Adoro Amar Você</h2>
+            <p>E quando o frio chegar, eu vou te dar o Sol
+                Na escuridão, vou ser o seu farol
+                Quando a primavera não te der mais flor
+                Eu te levo pro jardim do meu amor
+                Quando sentir medo, eu vou te proteger
+                Quando for chorar, eu choro com você</p>
+            <audio controls>
+                <source src="/assets/1.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 20/05/2024</footer>
+        </article>
+
+        <article class="card">
+            <h2>Beber com Emergência</h2>
+            <p>To procurando um posto, uma conveniência
+                To precisando beber com emergência
+                To remoendo o que ela me falou
+                Dessa vez acabou, acabou</p>
+            <audio controls>
+                <source src="/assets/2.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 20/04/2017</footer>
+        </article>
+
+        <article class="card">
+            <h2>Beijo de Uma, Corpo de Outra</h2>
+            <p>Se eu pudesse
+                Juntar o beijo de uma e o corpo da outra
+                Uma com aquele jeans, outra com pouca roupa
+                Seria bom demais, um dia calminho, dois dias no gás</p>
+            <audio controls>
+                <source src="/assets/3.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 22/09/2017</footer>
+        </article>
+
+        <article class="card">
+            <h2>Bipolar</h2>
+            <p>Meu coração
+                É feito fase de lua
+                Um dia ta cheio de você
+                No outro minguando pela rua
+                Bebendo, sentindo saudade sua
+                Então nao faz assim, não faz assim
+                Não some nem quando eu te mandar sumir
+                Você não tem que me ouvir
+                Você não tem que me ouvir</p>
+            <audio controls>
+                <source src="/assets/4.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 26/07/2025</footer>
+        </article>
+
+        <article class="card">
+            <h2>Caixa de Surpresa</h2>
+            <p>Precisamos de tão pouco
+                É só ta perto um do outro
+                Você me chama de fofo
+                É sinal que quer de novo
+                Um ataque sem defesa
+                Cada dia uma certeza
+                Você é a minha caixa de surpresa</p>
+            <audio controls>
+                <source src="/assets/5.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 16/03/2018</footer>
+        </article>
+
+        <article class="card">
+            <h2>Coleção de Ex</h2>
+            <p>Hoje ela vai sair
+                Alguém vai chegar
+                Vai chamar ela pra dançar
+                Um gole, três palavras, ela vai acreditar
+                Ele vai prometer
+                Que amanhã vai ligar
+                Mais um amor eterno com prazo de validade pra acabar</p>
+            <audio controls>
+                <source src="/assets/6.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 22/09/2017</footer>
+        </article>
+
+        <article class="card">
+            <h2>Com qual carícia</h2>
+            <p>Um pouco de ciúme sempre vem
+                Mas no primeiro beijo já passou
+                Eu quis, eu quero e sempre vou querer
+                Rolar e descansar no seu amor
+                Eu já caí no mundo, me deixei iludir
+                Fiz tanta coisa errada e quase te perdi</p>
+            <audio controls>
+                <source src="/assets/7.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 30/12/2022</footer>
+        </article>
+
+        <article class="card">
+            <h2>Palavras não Curam</h2>
+            <p>Me fez de palhaço
+                Me jogou no chão
+                Me enfeitiçou
+                Te dei meu coração
+                Me maltratou
+                Usou enquanto quis
+                E ainda vem perguntar
+                Se um dia fui feliz
+                Fui feliz</p>
+            <audio controls>
+                <source src="/assets/8.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 27/05/2018</footer>
+        </article>
+
+
+        <article class="card">
+            <h2>Um Centímetro</h2>
+            <p>E vai chegando perto de mim
+                E quando faltar um centímetro
+                Fecha os olhos
+                E deixa rolar, deixa
+                Deixa o beijo durar, deixa
+                Deixa rolar, deixa
+                Deixa o beijo durar</p>
+            <audio controls>
+                <source src="/assets/9.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 08/12/2016</footer>
+        </article>
+
+
+        <article class="card">
+            <h2>Um Pouco Mais</h2>
+            <p>Devia ter beijado um pouco mais
+                Ficado abraçado um pouco mais
+                Grudaria nele se eu pudesse voltar atrás
+                Devia ter amado um pouco mais
+                Sentir aquele cheiro um pouco mais
+                De pensar meu mundo sem ele é triste demais</p>
+            <audio controls>
+                <source src="/assets/10.mp3" type="audio/mpeg">
+            </audio>
+            <footer>Publicado em 24/11/2017</footer>
+        </article>
+
+
+    </div>
+
+    <footer class="rodape-pagina">
+        <p>
+            Esta é uma simulação pedagógica. A escolha do artista ocorreu para homenagear uma estrela em ascensão e um
+            dos mais escutados na internet. Todos os direitos das músicas pertencem aos seus respectivos autores.
+        </p>
+    </footer>
+</body>
+
+</html>
