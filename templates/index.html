@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.1">
+    <title>Victor Lêla | Portfólio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <nav class="navbar glass">
+                <div class="logo">
+                    <!-- Ícone e texto existentes PRIMEIRO -->
+                    <i class="fas fa-code logo-icon"></i>
+                    <span class="logo-text">VL Tech</span>
+                    
+                    <!-- logo DEPOIS do texto -->
+                    <img src="imagens/logo.png" alt="Logo VL Tech" class="logo-img">
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="active">Início</a>
+                    <a href="#about">Sobre</a>
+                    <a href="#projects">Projetos</a>
+                    <a href="#skills">Tecnologias</a>
+                    <a href="#contact">Contato</a>
+                </div>
+            </nav>
+        </header>
+
+        <section id="home" class="hero">
+            <div class="hero-content glass">
+                <h1>Victor A. Lêla <span class="highlight"> 🕷️</span></h1>
+                <p>👨‍💻 Desenvolvedor com foco em resolver tarefas cansativas criando soluções simples, práticas e reutilizáveis.<br>
+                    <strong>workflow automation</strong> • <strong>interfaces web interativas</strong> • <strong>extração de dados</strong>
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="total-repos">19</div>
+                        <div class="stat-label">Projetos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="total-stars">0</div>
+                        <div class="stat-label">Estrelas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="total-forks">0</div>
+                        <div class="stat-label">Forks</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="languages-count">17</div>
+                        <div class="stat-label">Tecnologias</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-card">
+                    <i class="fas fa-robot card-icon"></i>
+                    <h3>Otimizador de Processos</h3>
+                    <p style="text-align: center; margin-top: 10px; font-size: 0.9rem;">Python • Excel • Google App Script • Power Bi</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2 class="section-title">Sobre Mim</h2>
+            <div class="about-container">
+                <div class="about-content glass">
+                    <h3 style="margin-bottom: 20px; color: var(--text-color);">
+                        <i class="fas fa-user"></i> Quem sou eu
+                    </h3>
+                    <p style="line-height: 1.7; margin-bottom: 25px; font-size: 1.1rem;">
+                        Meu nome é <strong>Victor Arsego Lêla</strong>, estudante de Engenharia da Computação (CEUB) e Gestão Pública (Estácio). 
+                        Tenho paixão por simplificar rotinas e ajudar equipes a trabalhar melhor, usando tecnologia 
+                        para substituir tarefas manuais, repetitivas e propensas a erro. 
+                        Meu foco está em criar soluções práticas envolvendo:
+                        <strong>automação de fluxos de trabalho</strong>, 
+                        <strong>interfaces web simples e funcionais</strong> e 
+                        <strong>extração estruturada de dados</strong> a partir de documentos.
+                        Se algo pode ser feito de forma mais simples, clara e eficiente, eu busco descobrir e executar.
+                    </p>
+                    
+                    <div class="grid-2-columns mt-30">
+                        <div class="about-card about-card-primary">
+                            <h4>
+                                <i class="fas fa-briefcase"></i> Experiência
+                            </h4>
+                            <p>
+                                <strong>3 anos no Ministério das Comunicações</strong>, atuo no desenvolvimento de soluções worflow automation e data extraction com foco em documentos, relatórios e sistemas administrativos.<br><br>
+                                Meu projeto de maior impacto foi o <strong>SECPI (Sistema de Extração de Certificados)</strong>, 
+                                desenvolvido em Python.<br><br>
+                                Com ele, automatizei o processamento de <strong>200 a 400 PDFs por remessa</strong>, eliminando 
+                                totalmente erros de digitação e transformando um fluxo lento e manual em uma operação automática, 
+                                precisa e escalável.
+                            </p>
+                        </div>
+                        
+                        <div class="about-card about-card-secondary">
+                            <h4>
+                                <i class="fas fa-bullseye"></i> Objetivo
+                            </h4>
+                            <p>
+                                Atualmente trabalho em regime CLT e busco expandir minha atuação com projetos freelancer.<br><br>
+                                Meu objetivo é <strong>transformar processos burocráticos e manuais em soluções automatizadas</strong>, 
+                                ajudando pessoas e pequenas empresas a economizar tempo e reduzir erros com o uso inteligente da tecnologia.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="habilidades-container">
+                        <h4>
+                            <i class="fas fa-cogs"></i> Habilidades & Competências
+                        </h4>
+                        <div class="grid-1fr-1fr">
+                            <div>
+                                <h5>
+                                    <i class="fas fa-code"></i> Tecnologias
+                                </h5>
+                                <ul style="padding-left: 20px; color: var(--text-secondary);">
+                                    <li><strong>Python</strong> - Automação e Processamento de Dados</li>
+                                    <li><strong>Google Apps Script</strong> - Automação Google Workspace</li>
+                                    <li><strong>Excel Avançado</strong> - VBA, Macros, Tabelas Dinâmicas</li>
+                                    <li><strong>SEI!</strong> - Gestão Eletrônica de Documentos</li>
+                                    <li><strong>HTML/CSS</strong> - Desenvolvimento Web Básico</li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h5>
+                                    <i class="fas fa-brain"></i> Competências
+                                </h5>
+                                <ul>
+                                    <li><strong>Raciocínio Lógico</strong> - Resolução de problemas complexos</li>
+                                    <li><strong>Solução de Problemas</strong> - Análise e implementação de soluções</li>
+                                    <li><strong>Organização</strong> - Gestão eficiente de processos</li>
+                                    <li><strong>Melhoria Contínua</strong> - Otimização de fluxos de trabalho</li>
+                                    <li><strong>Criatividade</strong> - Inovação em automação</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SEÇÃO PROJETOS (COM ABAS) ==================== -->
+        <section id="projects">
+            <h2 class="section-title">Meus Projetos</h2>
+            
+            <!-- ABAS -->
+            <div class="projects-tabs">
+                <button class="tab-btn active" data-tab="professional">
+                    <i class="fas fa-briefcase"></i> Profissional
+                </button>
+                <button class="tab-btn" data-tab="educational">
+                    <i class="fas fa-graduation-cap"></i> Educacional
+                </button>
+            </div>
+            
+            <!-- ABA PROFISSIONAL (já existente) -->
+            <div class="tab-content active" id="tab-professional">
+                <div class="projects-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar projetos profissionais...">
+                    </div>
+                    <div class="filter-buttons" id="filterButtons">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="featured">⭐ Destaques</button>
+                    </div>
+                </div>
+                <div class="projects-grid" id="projectsContainer">
+                    <!-- Preenchido por projects-data.js (MY_PROJECTS) -->
+                </div>
+            </div>
+            
+            <!-- ABA EDUCACIONAL (NOVA) -->
+            <div class="tab-content" id="tab-educational">
+                <div class="projects-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="eduSearchInput" placeholder="Buscar projetos da faculdade...">
+                    </div>
+                    <div class="filter-buttons" id="eduFilterButtons">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="html-css">HTML/CSS</button>
+                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                        <button class="filter-btn" data-filter="bootstrap">Bootstrap</button>
+                    </div>
+                </div>
+                <div class="projects-grid" id="eduProjectsContainer">
+                    <!-- Preenchido por projects-data.js (EDUCATIONAL_PROJECTS) -->
+                </div>
+                
+                <!-- Seção de Relatórios (PDFs) -->
+                <h3 style="margin-top: 50px; text-align: center; font-size: 1.8rem;">
+                    <i class="fas fa-file-pdf" style="color: var(--accent-color);"></i> Relatórios
+                </h3>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">
+                    Documentação em PDF de cada projeto
+                </p>
+                <div class="projects-grid" id="reportsContainer">
+                    <!-- Preenchido por projects-data.js (REPORTS) -->
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">Entre em Contato</h2>
+            <div class="contact-container">
+                <div class="contact-info glass">
+                <h3 style="margin-bottom: 30px;">Vamos conversar!</h3>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h4>Email</h4>
+                        <p id="contact-email">victorarsego1@gmail.com</p>
+                    </div>
+                </div>
+                
+               <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp" style="color: #34a3fd;"></i>
+                    </div>
+                    <div>
+                        <h4>WhatsApp</h4>                       
+                        <!-- Texto clicável estilo GitHub -->
+                        <p style="margin: 0;">
+                            <a href="https://wa.me/5561999682366" 
+                            target="_blank" 
+                            class="whatsapp-text-link">
+                                Clique aqui para iniciar conversa
+                            </a>
+                        </p>                
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <div>
+                        <h4>GitHub</h4>
+                        <p id="githubProfile">github.com/ProfissionalJV</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <div>
+                        <h4>LinkedIn</h4>
+                        <p id="linkedinProfile">linkedin.com/in/vltech</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h4>Graduação</h4>
+                        <p id="graduation">Engenharia da Computação (5º semestre)<br>Gestão Pública (5º semestre)</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h4>Localização</h4>
+                        <p id="location">Brasília, DF | Remoto</p>
+                    </div>
+                </div>
+             </div>
+                <!-- NO SEU HTML, na seção de contato: -->
+        <div class="contact-form glass">
+            <h3 style="margin-bottom: 30px;">Envie uma Mensagem</h3>
+            
+            <!-- Formulário Flask -->
+            <form id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Seu nome *" required>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Seu email *" required>
+                </div>
+                
+                <div class="form-group">
+                    <textarea name="message" placeholder="Sua mensagem ou proposta de projeto *" rows="5" required></textarea>
+                </div>
+                
+                <button type="submit" class="cta-button" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Enviar Proposta
+                </button>
+                
+                <!-- Mensagem dinâmica aparecerá aqui -->
+                <div id="formMessage" style="display: none; margin-top: 20px;"></div>
+            </form>
+            
+            <!-- Backup VISÍVEL -->
+            <div style="margin-top: 25px; padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; text-align: center;">
+                <p style="margin: 0; font-size: 0.9rem; color: var(--text-secondary);">
+                    <i class="fas fa-shield-alt" style="color: var(--primary-color);"></i>
+                    <strong> Sistema 100% seguro</strong><br>
+                    <span style="font-size: 0.85rem;">
+                        Dados processados diretamente no seu servidor
+                    </span>
+                </p>
+            </div>
+            
+            <!-- Email direto SEMPRE visível -->
+            <div style="margin-top: 15px; text-align: center;">
+                <p style="margin: 0; font-size: 0.9rem;">
+                    <i class="fas fa-envelope"></i>
+                    <strong> Email direto:</strong>
+                    <a href="mailto:victorarsego1@gmail.com" 
+                       style="color: var(--primary-color); font-weight: bold;">
+                        victorarsego1@gmail.com
+                    </a>
+                </p>
+            </div>
+        </div>
+        </section>
+
+        <footer>
+            <div class="github-stats" id="githubStats">
+                <div class="github-stat">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Projetos</div>
+                </div>
+                <div class="github-stat">
+                    <div class="stat-number">37</div>
+                    <div class="stat-label">Estrelas</div>
+                </div>
+                <div class="github-stat">
+                    <div class="stat-number">14</div>
+                    <div class="stat-label">Forks</div>
+                </div>
+                <div class="github-stat">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Tecnologias</div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://github.com/ProfissionalJV/Portifolio-MCom" target="_blank" class="social-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/vltech/" target="_blank" class="social-link" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:victorarsego1@gmail.com" class="social-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+            <p>&copy; 2026 Victor Lêla. Todos os direitos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Portfólio de Projetos</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/particles-config.js"></script>
+    <script src="js/projects-data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
