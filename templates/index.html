@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.1">
     <title>Victor Lêla | Portfólio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div id="particles-js"></div>
@@ -19,7 +20,9 @@
                     <span class="logo-text">VL Tech</span>
                     
                     <!-- logo DEPOIS do texto -->
-                    <img src="imagens/logo.png" alt="Logo VL Tech" class="logo-img">
+                    <img src="{{ url_for('static', filename='imagens/logo.png') }}"
+                     alt="Logo VL Tech"
+                     class="logo-img">
                 </div>
                 <div class="nav-links">
                     <a href="#home" class="active">Início</a>
@@ -370,8 +373,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="js/particles-config.js"></script>
-    <script src="js/projects-data.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/particles-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/projects-data.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
