@@ -1,17 +1,24 @@
 from flask import Flask, send_from_directory, request, jsonify
 from flask_cors import CORS
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Email, To, Content
 import os
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
+# Tentar importar SendGrid (se instalado)
+try:
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail, Email, To, Content
+    SENDGRID_AVAILABLE = True
+except ImportError:
+    SENDGRID_AVAILABLE = False
+    print("⚠️  SendGrid não instalado. Rodando sem envio de email.")
+
 # 🔐 Configuração SendGrid
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-SENDGRID_FROM_EMAIL = "victorarsego1@gmail.com"  # O mesmo que verificou
-SENDGRID_TO_EMAIL = "victorarsego1@gmail.com"    # Para onde enviar
+SENDGRID_FROM_EMAIL = "victorarsego1@gmail.com"
+SENDGRID_TO_EMAIL = "victorarsego1@gmail.com"
 
 # ==================== ROTAS PRINCIPAIS ====================
 
