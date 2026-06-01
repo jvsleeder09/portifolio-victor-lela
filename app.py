@@ -133,3 +133,16 @@ if __name__ == '__main__':
     # Garantir que o servidor rode
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
+
+@app.route('/teste')
+def teste():
+    import os
+
+    return jsonify({
+        "cwd": os.getcwd(),
+        "static": os.path.exists("static"),
+        "css": os.path.exists("static/css"),
+        "style": os.path.exists("static/css/style.css"),
+        "js": os.path.exists("static/js/main.js"),
+        "logo": os.path.exists("static/imagens/logo.png")
+    })
