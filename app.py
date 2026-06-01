@@ -13,19 +13,36 @@ SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_FROM_EMAIL = "victorarsego1@gmail.com"  # O mesmo que verificou
 SENDGRID_TO_EMAIL = "victorarsego1@gmail.com"    # Para onde enviar
 
+# ==================== ROTAS PRINCIPAIS ====================
+
 @app.route('/')
 def home():
-    return send_from_directory('.', 'index.html')
+    """Página principal"""
+    return send_from_directory('templates', 'index.html')
 
-@app.route('/<path:path>')
-def static_file(path):
-    return send_from_directory('.', path)
+@app.route('/css/<path:filename>')
+def serve_css(filename):
+    return send_from_directory('static/css', filename)
+
+@app.route('/js/<path:filename>')
+def serve_js(filename):
+    return send_from_directory('static/js', filename)
+
+@app.route('/imagens/<path:filename>')
+def serve_imagens(filename):
+    return send_from_directory('static/imagens', filename)
+
+@app.route('/faculdade/<path:filename>')
+def serve_faculdade(filename):
+    """Serve arquivos estáticos da pasta faculdade"""
+    return send_from_directory('static/faculdade', filename)
+
+# ==================== ROTA DE CONTATO ====================
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
-    """Envia email via SendGrid"""
+    """Processa formulário de contato"""
     try:
-        # 1. Validar entrada
         data = request.get_json()
         if not data:
             return jsonify({"success": False, "message": "Dados inválidos"}), 400
@@ -37,101 +54,75 @@ def contact():
         if not all([name, email, message]):
             return jsonify({"success": False, "message": "Preencha todos os campos"}), 400
         
-        print(f"📤 Enviando via SendGrid: {name} ({email})")
+        print(f"📤 Nova mensagem de: {name} ({email})")
+        print(f"📝 Mensagem: {message[:100]}...")
         
-        # 2. Verificar API Key
-        if not SENDGRID_API_KEY:
-            print("⚠️  SendGrid API Key não configurada")
-            # Fallback: salva no log
-            save_lead_locally(name, email, message)
-            return jsonify({
-                "success": True,  # Não falha para o cliente
-                "message": "✅ Recebemos sua proposta! Entrarei em contato em breve."
-            })
-        
-        # 3. Criar email com SendGrid
-        email_content = f"""
-        🚀 NOVO CLIENTE POTENCIAL - PORTFÓLIO VICTOR
-        
-        👤 Nome: {name}
-        📧 Email: {email}
-        📅 Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
-        
-        💼 MENSAGEM:
-        {message}
-        
-        ⚡ AÇÃO NECESSÁRIA:
-        - Responder em até 24 horas
-        - Contatar: {email}
-        
-        ---
-        📍 Enviado automaticamente do seu portfólio.
-        """
-        
-        # 4. Configurar email SendGrid
-        message = Mail(
-            from_email=Email(SENDGRID_FROM_EMAIL, "Portfólio Victor"),
-            to_emails=To(SENDGRID_TO_EMAIL),
-            subject=f"🎯 CLIENTE POTENCIAL: {name}",
-            plain_text_content=email_content
-        )
-        
-        # 5. Enviar via SendGrid API
-        sg = SendGridAPIClient(SENDGRID_API_KEY)
-        response = sg.send(message)
-        
-        print(f"✅ Email enviado via SendGrid. Status: {response.status_code}")
-        
-        # Salva backup local
+        # Salvar localmente
         save_lead_locally(name, email, message)
+        
+        # Tentar enviar via SendGrid
+        if SENDGRID_AVAILABLE and SENDGRID_API_KEY:
+            try:
+                email_content = f"""
+                🚀 NOVO CONTATO - PORTFÓLIO
+                
+                👤 Nome: {name}
+                📧 Email: {email}
+                📅 Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
+                
+                💼 MENSAGEM:
+                {message}
+                """
+                
+                sg_message = Mail(
+                    from_email=Email(SENDGRID_FROM_EMAIL, "Portfólio Victor"),
+                    to_emails=To(SENDGRID_TO_EMAIL),
+                    subject=f"🎯 Contato de {name}",
+                    plain_text_content=email_content
+                )
+                
+                sg = SendGridAPIClient(SENDGRID_API_KEY)
+                response = sg.send(sg_message)
+                print(f"✅ Email enviado via SendGrid. Status: {response.status_code}")
+            except Exception as e:
+                print(f"⚠️  Erro ao enviar email: {e}")
         
         return jsonify({
             "success": True,
-            "message": "✅ Proposta enviada! Entrarei em contato em até 24 horas."
+            "message": "✅ Mensagem recebida! Entrarei em contato em breve."
         })
         
     except Exception as e:
-        print(f"❌ Erro SendGrid: {str(e)}")
-        
-        # Fallback: salva localmente
-        save_lead_locally(name, email, message)
-        
-        # NUNCA falhar para o cliente!
+        print(f"❌ Erro no contato: {str(e)}")
         return jsonify({
             "success": True,
-            "message": "✅ Recebemos sua proposta! Confirmarei por email em breve."
+            "message": "✅ Mensagem recebida! Responderei por email."
         })
 
 def save_lead_locally(name, email, message):
-    """Salva lead em arquivo temporário como backup"""
+    """Salva lead em arquivo"""
     try:
         lead_data = f"{datetime.now()}|{name}|{email}|{message}\n"
-        with open('/tmp/leads.txt', 'a', encoding='utf-8') as f:
+        with open('leads.txt', 'a', encoding='utf-8') as f:
             f.write(lead_data)
-        print(f"📝 Lead salvo localmente: {name}")
+        print(f"📝 Lead salvo: {name}")
     except Exception as e:
         print(f"⚠️  Erro ao salvar lead: {e}")
 
-# 🔍 Rota para visualizar leads (APENAS PARA DEBUG)
-@app.route('/debug/leads')
-def view_leads():
-    """Mostra leads recebidos"""
-    try:
-        with open('/tmp/leads.txt', 'r', encoding='utf-8') as f:
-            leads = f.read()
-        return f"<pre>{leads}</pre>"
-    except:
-        return "<pre>Nenhum lead ainda</pre>"
+# ==================== ROTAS AUXILIARES ====================
 
-# 🩺 Rota de saúde
 @app.route('/health')
 def health():
     return jsonify({"status": "healthy", "service": "portfolio"})
 
+# ==================== INICIALIZAÇÃO ====================
+
 if __name__ == '__main__':
     print("=" * 60)
-    print("🚀 Portfólio Victor - SendGrid Email")
-    print(f"📧 SendGrid configurado: {'✅ SIM' if SENDGRID_API_KEY else '❌ NÃO'}")
+    print("🚀 Portfólio Victor Lêla")
+    print(f"📧 SendGrid: {'✅ Disponível' if SENDGRID_AVAILABLE else '❌ Não instalado'}")
     print("=" * 60)
     
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
+    # Garantir que o servidor rode
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
