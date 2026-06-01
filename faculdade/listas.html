@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Athlete Factory - Formulário</title>
+    <style>
+
+            /* CORPO DA PÁGINA */
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #cfd8dc, #b0bec5);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* CONTAINER PRINCIPAL E CABEÇALHO */
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: linear-gradient(to bottom, #ffffff, #f4f7f9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .cabecalho {
+            background: radial-gradient(circle at bottom right, #000000 0%, #205F81 35%, #0a2f4f 70%, #000000 100%);
+            color: white;
+            padding: 25px 30px;
+            border-bottom: 4px solid #0b3a55;
+            text-align: center;
+        }
+
+        .cabecalho h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .cabecalho h1 strong {
+            color: #8caec0;
+            font-weight: bold;
+        }
+
+        .cabecalho p {
+            margin: 10px 0 0;
+            color: #c0d0dd;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .exclusivo {
+            background-color: #205F81;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #5A6B73;
+        }
+
+        /* ÁREA DO FORMS E TÍTULOS DAS SEÇÕES */
+
+        .formulario {
+            padding: 25px 30px;
+            background: #fafcfd;
+        }
+
+        h2 {
+            color: #1e3c72;
+            border-bottom: 2px solid #122b57;
+            padding-bottom: 5px;
+            margin: 30px 0 15px 0;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        /* TABELAS E CAMPOS DE SELEÇÃO*/
+
+        table {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        td {
+            padding: 8px 5px;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .rotulo {
+            width: 180px;
+            color: #1e2b3c;
+            font-weight: bold;
+            font-size: 14px;
+            padding-top: 12px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #b0bec5;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f9fbfc;
+            box-sizing: border-box;
+            transition: 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2a5298;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(42,82,152,0.15);
+            outline: none;
+        }
+
+        /* GRUPOS DE SELEÇÃO, BOTÕES*/
+
+        .radio-group {
+            background-color: #e4eef8;
+            padding: 6px 12px;
+            border-radius: 31px;
+            display: inline-block;
+            border: 1px solid #487294;
+            height: 35px;
+            line-height: 30px;
+            white-space: nowrap;
+        }
+
+        .radio-group label {
+            margin-right: 20px;
+            color: #0f1a2f;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .radio-group input[type="radio"] {
+            width: 14px;
+            height: 14px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        /* BLOCO PERGUNTA DE GRAVIDEZ E PEQUENOS TEXTOS */
+        .gravidez {
+            background-color: #e3edf5;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 10px 0 20px 0;
+            border-left: 6px solid #205F81;
+            text-align: left;
+        }
+
+        .gravidez label {
+            font-weight: bold;
+            color: #0f1a2f;
+            margin-right: 15px;
+            font-size: 15px;
+        }
+
+        .gravidez select {
+            width: auto;
+            min-width: 200px;
+            display: inline-block;
+            background-color: white;
+            padding: 8px;
+        }
+
+        .small-note {
+            color: #5A6B73;
+            font-size: 12px;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* BOTÃO DE ENVIAR FORMULÁRIO E RODAPÉ*/
+        .botao-area {
+            text-align: right;
+            margin-top: 30px;
+            border-top: 2px solid #DCE0E1;
+            padding-top: 25px;
+        }
+
+        .botao {
+            background: radial-gradient(circle at bottom right, #000000 0%, #205F81 35%, #0a2f4f 70%, #000000 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .botao:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .rodape-form {
+            color: #000000;
+            font-size: 13px;
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .rodape {
+            background: radial-gradient(circle at bottom right, #000000 0%, #205F81 35%, #0a2f4f 70%, #000000 100%);
+            color: #d6e4eb;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            border-top: 3px solid #205F81;
+        }
+
+        /* LISTA DOS MEDICAMENTOS */
+        .medicamentos-lista {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .medicamentos-lista li {
+            margin-bottom: 12px;
+            list-style-type: decimal;
+            
+        }
+
+        .med-nome {
+            font-weight: bold;
+            color: #0f1a2f;
+            display: inline-block;
+            width: 120px; 
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .dosagem-select {
+            width: 160px; 
+            padding: 6px 8px;
+            border: 2px solid #5A6B73;
+            border-radius: 6px;
+            background-color: white;
+            font-size: 13px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        .outros-item {
+            margin-top: 8px;
+            padding-top: 10px;
+            border-top: 1px dashed #93A5AF;
+            white-space: nowrap;
+        }
+
+        .outros-nome, .outros-dosagem {
+            width: 150px;
+            padding: 6px 8px;
+            border: 2px solid #5A6B73;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-right: 5px;
+            vertical-align: middle;
+            display: inline-block; 
+        }
+
+        .outros-nome {
+            width: 160px; 
+        }      
+
+    </style>
+</head>    
+<body>
+    <div class="container">
+        <div class="cabecalho">
+            <h1><b>ATHLETE <strong>FACTORY</strong></b></h1>
+            <p><b>Alto Rendimento · Seleção de Elite</b></p>
+            <div class="exclusivo">EXCLUSIVO PARA ATLETAS DE ALTA PERFORMANCE</div>
+        </div>
+
+        <!--INTRODUÇÃO DO FORMS-->
+
+    <div class="formulario">
+        <form action="#" method="post">
+            <h2>DADOS PESSOAIS</h2>
+            <table>
+                <tr>
+                    <td class="rotulo">Nome Completo:</td>
+                    <td><input type="text" name="nome" placeholder="Digite seu nome"></td>
+                </tr>
+                <tr>
+                    <td class="rotulo">Idade:</td>
+                    <td><input type="number" name="idade" min="14" max="75" placeholder="Ex: 25"></td>
+                </tr>
+                <tr>
+                    <td class="rotulo">Sexo:</td>
+                    <td>
+                        <div class="radio-group">
+                            <label><input type="radio" name="sexo" value="masculino">Masculino</label>
+                            <label><input type="radio" name="sexo" value="feminino">Feminino</label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!--GRAVIDEZ (PARA SEXO FEMININO)-->
+            <div class="gravidez">
+                <label for="gravidez">Se feminino, está grávida?</label>
+                <select name="gravidez" id="gravidez">
+                    <option value="">--Selecione --</option>
+                    <option value="">SIM</option>
+                    <option value="">NÃO</option>
+                </select>
+            </div>
+
+            <!--HISTORICO DE ATIVIDADES-->
+            <h2> HISTÓRICO DE TREINO</h2>
+            <table>
+                <tr>
+                <td class="rotulo">Treina há quanto tempo?</td>
+                <td><input type="text" name="tempo" placeholder="Ex: 2 anos e 6 meses"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Frequência de treino:</td>
+                <td><input type="text" name="modalidade" placeholder="Ex: 3 vezes na semana"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Esporte de foco:</td>
+                <td><input type="text" name="esporte_foco" placeholder="Ex: Vôlei, natação, corrida"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Objetivo do treino:</td>
+                <td><textarea name="objetivo" rows="3" placeholder="Descreva seu principal objetivo..."></textarea></td>    
+                </tr>
+            </table>
+
+            <!--FICHA MÉDICA-->
+            <h2> FICHA MÉDICA</h2>
+            <table>
+
+                <tr>
+                <td class="rotulo">Acompanhamento Médico?</td>
+                <td>
+                    <div class="radio-group">
+                        <label><input type="radio" name="acompanhamento" value="sim">Sim</label>
+                        <label><input type="radio" name="acompanhamento" value="nao">Não</label>
+                    </div>  
+                </td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Frequência do acompanhamento:</td>
+                <td><input type="text" name="frequencia" placeholder="Ex: Semanal, mensal, trimestral ou anual"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Possui lesão?</td>
+                <td>
+                    <div class="radio-group">
+                        <label><input type="radio" name="lesao" value="sim">Sim</label>
+                        <label><input type="radio" name="lesao" value="nao">Não</label>
+                    </div> 
+                </td> 
+                </tr>
+
+                <tr>
+                <td class="rotulo">Tipo de Lesão:</td>
+                <td><textarea name="tipo_lesao" rows="2" placeholder="Ex: Descreva a lesão, se houver"></textarea></td>    
+                </tr>
+
+                <tr>
+                <td class="rotulo">Pode atrapalhar o rendimento?</td>
+                <td>
+                    <div class="radio-group">
+                        <label><input type="radio" name="atrapalha" value="sim">Sim</label>
+                        <label><input type="radio" name="atrapalha" value="nao">Não</label>
+                    </div> 
+                </td> 
+                </tr>
+
+                <tr>
+                <td class="rotulo">Medicamentos:</td>
+                <td>
+                    <ol class="medicamentos-lista">
+                        <li>
+                            <b class="med-nome">Beta-Alanina</b>
+                            <select name="dosagem_beta" class="dosagem-select">
+                                <option value="">Selecione a dosagem</option>
+                                <option value="1g">1g</option>
+                                <option value="3g">3g</option>
+                                <option value="6g">6g</option>
+                            </select>
+                        </li>
+                        <li>
+                            <b class="med-nome">Testosterona</b>
+                            <select name="dosagem_testo" class="dosagem-select">
+                                <option value="">Selecione a dosagem</option>
+                                <option value="200mg">200mg</option>
+                                <option value="400mg">400mg</option>
+                                <option value="600mg">600mg</option>
+                            </select>
+                        </li>
+                        <li>
+                            <b class="med-nome">Anti-Depressivos</b>
+                            <select name="dosagem_anti" class="dosagem-select">
+                                <option value="">Selecione a dosagem</option>
+                                <option value="20mg">20mg</option>
+                                <option value="50mg">50mg</option>
+                                <option value="75mg">75mg</option>
+                            </select>
+                        </li>
+                        <li class="outros-item">
+                            <b class="med-nome">Outros:</b>
+                            <input type="text" name="outros_med_nome" placeholder="Nome do medicamento" class="outros-nome">
+                            <input type="text" name="outros_med_dosagem" placeholder="Dosagem" class="outros-dosagem">
+                        </li>
+                    </ol>
+                    <p class="small-note" style="margin-top:8px;">* Selecione a dosagem para cada medicamento que utiliza. Em "Outros", especifique nome e dosagem.</p>
+                </td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Alergias:</td>
+                <td><input type="text" name="alergias" placeholder="Ex: Pólen, produtos de limpeza, nenhuma"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Problemas de Saúde:</td>
+                <td><input type="text" name="problemas" placeholder="Ex: Asma, hipertensão, nenhum"></td>
+                </tr>
+
+            </table>
+
+            <!--INFORMAÇÕES ADICIONAIS-->
+            <h2> INFORMAÇÕES ADICIONAIS</h2>
+            <table>
+                <tr>
+                <td class="rotulo">Altura:</td>
+                <td><input type="text" name="altura" placeholder="Ex: 1,80m"></td>    
+                </tr>
+
+                <tr>
+                <td class="rotulo">Peso:</td>
+                <td><input type="text" name="peso" placeholder="Ex: 78kg"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">% de Gordura:</td>
+                <td><input type="number" name="gordura" step="0.1" min="0" max="60" placeholder="Ex: 12.5"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">% de Músculo:</td>
+                <td><input type="number" name="musculo" step="0.1" min="0" max="100" placeholder="Ex: 35.5"></td>
+                </tr>
+
+                <tr>
+                <td class="rotulo">Tipo Sanguíneo:</td>    
+                <td>
+                    <select name="sangue">
+                        <option value="">--Selecione--</option>
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+                    </select>
+                </td>
+                </tr>
+            </table>
+
+            <div class="botao-area">
+                <button type="submit" class="botao">ENVIAR FORMULÁRIO</button>
+            </div>
+            <p class="rodape-form">*Vagas Limitadas · Análise exclusiva</p>
+        </form>
+    </div>
+    
+    <div class="rodape">
+        Athlete Factory - Excelência, alto desempenho e exclusividade
+    </div>
+    
+    </div>
+</body>
+</html>

@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PANINI World Cup 2026 | Tabela Oficial e Chaveamento</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap 5.3 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #ffdf8c;
+      --gold-dim: rgba(212, 175, 55, 0.35);
+      --dark: #03060c;
+      --dark2: #0a0f1e;
+      --glass: rgba(15, 25, 45, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: radial-gradient(ellipse at 20% 10%, #0d1a2e, #03060c 60%);
+      color: #eee;
+      overflow-x: hidden;
+    }
+
+    /*  NAVBAR  */
+    .navbar-panini {
+      background: rgba(5, 8, 18, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    .navbar-brand {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem;
+      color: var(--gold) !important;
+      letter-spacing: 2px;
+    }
+
+    .navbar-brand span {
+      color: #fff;
+    }
+
+    .navbar-nav .nav-link {
+      color: #d0cfc4 !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      padding: 7px 16px;
+      border-radius: 40px;
+      transition: all 0.2s;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      background: var(--gold-dim);
+      color: var(--gold-light) !important;
+      border: 1px solid var(--gold-dim);
+    }
+
+    /*  SIDEBAR  */
+    .sidebar-panini {
+      position: fixed;
+      left: 0;
+      top: 62px;
+      width: 290px;
+      height: calc(100vh - 62px);
+      background: rgba(5, 8, 18, 0.92);
+      backdrop-filter: blur(16px);
+      border-right: 1px solid var(--gold-dim);
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      overflow-y: auto;
+      z-index: 999;
+      padding: 16px 10px 30px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
+    }
+
+    .sidebar-panini::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-panini::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .sidebar-panini::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .sidebar-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 2px;
+      padding: 10px 0;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--gold-dim);
+      position: sticky;
+      top: 0;
+      background: rgba(5, 8, 18, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 2;
+    }
+
+    /* ACORDEÃO DE GRUPOS */
+    .grupo-accordion-item {
+      margin-bottom: 4px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .grupo-accordion-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      background: rgba(10, 18, 30, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+      user-select: none;
+    }
+
+    .grupo-accordion-header:hover {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+
+    .grupo-accordion-header.active {
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold);
+      border-left: 3px solid var(--gold);
+    }
+
+    .grupo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--gold-dim);
+      border-radius: 8px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      flex-shrink: 0;
+      transition: all 0.25s;
+    }
+
+    .grupo-accordion-header.active .grupo-badge {
+      background: var(--gold);
+      color: #060606;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    }
+
+    .grupo-accordion-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      color: var(--gold-light);
+      letter-spacing: 1.5px;
+      flex: 1;
+    }
+
+    .grupo-accordion-arrow {
+      color: var(--gold);
+      font-size: 0.7rem;
+      transition: transform 0.3s;
+    }
+
+    .grupo-accordion-header.active .grupo-accordion-arrow {
+      transform: rotate(90deg);
+    }
+
+    /* Lista de seleções */
+    .grupo-accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: rgba(5, 10, 20, 0.5);
+      border-radius: 0 0 10px 10px;
+    }
+
+    .grupo-accordion-body.open {
+      max-height: 300px;
+    }
+
+    .selecao-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px 10px 28px;
+      color: #bbb;
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+    }
+
+    .selecao-link:hover {
+      background: rgba(212, 175, 55, 0.1);
+      color: #fff;
+      border-left: 2px solid var(--gold-dim);
+    }
+
+    /* ESTADO ATIVO DO SCROLLSPY */
+    .selecao-link.active-selecao {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold-light) !important;
+      border-left: 3px solid var(--gold);
+      position: relative;
+    }
+
+    .selecao-link.active-selecao::after {
+      content: '';
+      position: absolute;
+      right: 10px;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold);
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+
+    .flag-sidebar {
+      width: 26px;
+      height: 18px;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+    }
+
+    .pos-badge {
+      font-size: 0.6rem;
+      color: #777;
+      margin-left: auto;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .selecao-link.active-selecao .pos-badge {
+      color: var(--gold);
+    }
+
+    /* ─── CONTEÚDO PRINCIPAL ─── */
+    .main-content {
+      margin-left: 290px;
+      padding: 80px 28px 40px;
+    }
+
+    /* ─── HERO ─── */
+    .hero-section {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      padding: 60px 0 40px;
+    }
+
+    .glass-card {
+      background: rgba(15, 25, 45, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 28px;
+      border: 1px solid var(--gold-dim);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .album-float {
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.35));
+      animation: flutuarAlbum 5s ease-in-out infinite;
+    }
+
+    @keyframes flutuarAlbum {
+      0%, 100% { transform: translateY(0) rotateY(10deg) rotateX(3deg); }
+      50% { transform: translateY(-20px) rotateY(13deg) rotateX(5deg); }
+    }
+
+    .btn-gold {
+      background: linear-gradient(95deg, #b8860b, #d4af37);
+      border: none;
+      color: #060606;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 30px;
+      border-radius: 60px;
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 1px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-gold:hover {
+      opacity: 0.88;
+      color: #060606;
+    }
+
+    /* ─── SECTION TITLE ─── */
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      border-left: 5px solid var(--gold);
+      padding-left: 18px;
+      margin-bottom: 28px;
+      letter-spacing: 1px;
+    }
+
+    /* ─── GRUPOS GRID ─── */
+    .grupos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 1200px) {
+      .grupos-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .grupos-grid { grid-template-columns: 1fr; }
+    }
+
+    .grupo-card {
+      background: rgba(8, 14, 26, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      scroll-margin-top: 80px;
+    }
+
+    .grupo-card:hover {
+      border-color: rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.18);
+    }
+
+    .grupo-header {
+      background: rgba(212, 175, 55, 0.12);
+      padding: 13px;
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .grupo-header h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.15rem;
+      color: var(--gold);
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .grupo-tabela {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .grupo-tabela th {
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--gold);
+      padding: 9px 6px;
+      font-size: 0.68rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .grupo-tabela td {
+      padding: 9px 6px;
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    .grupo-tabela tr:last-child td {
+      border-bottom: none;
+    }
+
+    .grupo-tabela tbody tr:hover td {
+      background: rgba(212, 175, 55, 0.07);
+    }
+
+    .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-start;
+      padding-left: 8px;
+    }
+
+    .flag-mini {
+      width: 26px;
+      height: 18px;
+      object-fit: cover;
+      border-radius: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .grupo-tabela tbody tr:nth-child(1) td:first-child,
+    .grupo-tabela tbody tr:nth-child(2) td:first-child {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* Highlight da linha quando visível no scroll */
+    .grupo-tabela tbody tr.scroll-highlight td {
+      background: rgba(212, 175, 55, 0.12);
+    }
+
+    /* CHAVEAMENTO */
+
+    .bracket-outer {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 30px 0 50px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) transparent;
+    }
+
+    .bracket-outer::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .bracket-outer::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    #bracket-canvas {
+      min-height: 900px;
+      margin: auto;
+      position: relative;
+    }
+
+    .bk-col-label {
+      position: absolute;
+      top: 0;
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .bk-match {
+      position: absolute;
+      background: rgba(10, 18, 30, 0.88);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-left: 3px solid var(--gold);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      transition: 0.25s;
+    }
+
+    .bk-match:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(212, 175, 55, 0.55);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+    }
+
+    .bk-match.is-final {
+      border-left: 3px solid #ffd700;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(10, 18, 30, 0.92));
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.18);
+    }
+
+    .bk-date {
+      border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 0.5px;
+      padding: 4px 8px;
+      font-size: 0.65rem;
+      color: #aaa;
+    }
+
+    .bk-team {
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .bk-team+.bk-team {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bk-team span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bk-flag-ph {
+      flex-shrink: 0;
+      width: 24px;
+      height: 16px;
+      display: inline-block;
+    }
+
+    #bracket-svg {
+      overflow: visible;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-left: 290px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--gold-dim);
+      padding: 28px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* ─── MOBILE ─── */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      left: 14px;
+      top: 72px;
+      z-index: 1001;
+      background: var(--gold);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar-panini {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 280px;
+      }
+      .sidebar-panini.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      footer {
+        margin-left: 0;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grupos-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#selecoes-scrollspy" data-bs-offset="100" tabindex="0">
+
+  <!-- ─── NAVBAR ─── -->
+  <nav class="navbar navbar-expand-lg navbar-panini fixed-top py-2">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand" href="#inicio">PANINI<span>2026</span></a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <i class="bi bi-grid-3x3-gap-fill" style="color:var(--gold);font-size:1.3rem;"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="#inicio"><i class="bi bi-house-fill me-1"></i>Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="#grupos"><i class="bi bi-grid-3x3-gap me-1"></i>Grupos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#chaveamento"><i class="bi bi-diagram-3 me-1"></i>Mata-Mata</a></li>
+        </ul>
+        <span style="color:var(--gold);font-family:'Orbitron';font-size:0.8rem;letter-spacing:1px;">
+          <i class="bi bi-trophy-fill me-1"></i>WORLD CUP 2026
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ─── BOTÃO MENU MOBILE ─── -->
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+    <i class="bi bi-list" style="color:#060606;font-size:1.5rem;"></i>
+  </button>
+
+  <!-- SIDEBAR - ACORDEÃO + SCROLLSPY -->
+  <div class="sidebar-panini" id="mainSidebar">
+    <div class="sidebar-title">
+      <i class="bi bi-trophy-fill me-2"></i>GRUPOS
+      <div style="font-size:0.55rem;color:#888;letter-spacing:0.5px;margin-top:2px;">Scrollspy ativo</div>
+    </div>
+    
+    <!-- Menu interno do Scrollspy (ESCONDIDO visualmente) -->
+    <nav id="selecoes-scrollspy" class="d-none">
+      <!-- Grupo A -->
+      <a class="nav-link" href="#sel-mexico"></a>
+      <a class="nav-link" href="#sel-africa-sul"></a>
+      <a class="nav-link" href="#sel-coreia"></a>
+      <a class="nav-link" href="#sel-tchequia"></a>
+      <!-- Grupo B -->
+      <a class="nav-link" href="#sel-canada"></a>
+      <a class="nav-link" href="#sel-suica"></a>
+      <a class="nav-link" href="#sel-catar"></a>
+      <a class="nav-link" href="#sel-bosnia"></a>
+      <!-- Grupo C -->
+      <a class="nav-link" href="#sel-brasil"></a>
+      <a class="nav-link" href="#sel-marrocos"></a>
+      <a class="nav-link" href="#sel-escocia"></a>
+      <a class="nav-link" href="#sel-haiti"></a>
+      <!-- Grupo D -->
+      <a class="nav-link" href="#sel-eua"></a>
+      <a class="nav-link" href="#sel-australia"></a>
+      <a class="nav-link" href="#sel-turquia"></a>
+      <a class="nav-link" href="#sel-paraguai"></a>
+      <!-- Grupo E -->
+      <a class="nav-link" href="#sel-alemanha"></a>
+      <a class="nav-link" href="#sel-costa-marfim"></a>
+      <a class="nav-link" href="#sel-equador"></a>
+      <a class="nav-link" href="#sel-curacao"></a>
+      <!-- Grupo F -->
+      <a class="nav-link" href="#sel-holanda"></a>
+      <a class="nav-link" href="#sel-japao"></a>
+      <a class="nav-link" href="#sel-suecia"></a>
+      <a class="nav-link" href="#sel-tunisia"></a>
+      <!-- Grupo G -->
+      <a class="nav-link" href="#sel-belgica"></a>
+      <a class="nav-link" href="#sel-egito"></a>
+      <a class="nav-link" href="#sel-ira"></a>
+      <a class="nav-link" href="#sel-nova-zelandia"></a>
+      <!-- Grupo H -->
+      <a class="nav-link" href="#sel-espanha"></a>
+      <a class="nav-link" href="#sel-uruguai"></a>
+      <a class="nav-link" href="#sel-arabia"></a>
+      <a class="nav-link" href="#sel-cabo-verde"></a>
+      <!-- Grupo I -->
+      <a class="nav-link" href="#sel-franca"></a>
+      <a class="nav-link" href="#sel-senegal"></a>
+      <a class="nav-link" href="#sel-iraque"></a>
+      <a class="nav-link" href="#sel-noruega"></a>
+      <!-- Grupo J -->
+      <a class="nav-link" href="#sel-argentina"></a>
+      <a class="nav-link" href="#sel-argelia"></a>
+      <a class="nav-link" href="#sel-austria"></a>
+      <a class="nav-link" href="#sel-jordania"></a>
+      <!-- Grupo K -->
+      <a class="nav-link" href="#sel-portugal"></a>
+      <a class="nav-link" href="#sel-rd-congo"></a>
+      <a class="nav-link" href="#sel-uzbequistao"></a>
+      <a class="nav-link" href="#sel-colombia"></a>
+      <!-- Grupo L -->
+      <a class="nav-link" href="#sel-inglaterra"></a>
+      <a class="nav-link" href="#sel-croacia"></a>
+      <a class="nav-link" href="#sel-gana"></a>
+      <a class="nav-link" href="#sel-panama"></a>
+    </nav>
+
+    <!-- Acordeão visual -->
+    <div id="grupoAccordion">
+      
+      <!-- GRUPO A -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="A" data-target="grupoA">
+          <span class="grupo-badge">A</span>
+          <span class="grupo-accordion-title">GRUPO A</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoA">
+          <a href="#sel-mexico" class="selecao-link" data-spy="sel-mexico"><img src="https://flagcdn.com/w40/mx.png" class="flag-sidebar img-fluid" alt="México">México<span class="pos-badge">1º</span></a>
+          <a href="#sel-africa-sul" class="selecao-link" data-spy="sel-africa-sul"><img src="https://flagcdn.com/w40/za.png" class="flag-sidebar img-fluid" alt="África do Sul">África do Sul<span class="pos-badge">2º</span></a>
+          <a href="#sel-coreia" class="selecao-link" data-spy="sel-coreia"><img src="https://flagcdn.com/w40/kr.png" class="flag-sidebar img-fluid" alt="Coreia do Sul">Coreia do Sul<span class="pos-badge">3º</span></a>
+          <a href="#sel-tchequia" class="selecao-link" data-spy="sel-tchequia"><img src="https://flagcdn.com/w40/cz.png" class="flag-sidebar img-fluid" alt="Tchéquia">Tchéquia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO B -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="B" data-target="grupoB">
+          <span class="grupo-badge">B</span>
+          <span class="grupo-accordion-title">GRUPO B</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoB">
+          <a href="#sel-canada" class="selecao-link" data-spy="sel-canada"><img src="https://flagcdn.com/w40/ca.png" class="flag-sidebar img-fluid" alt="Canadá">Canadá<span class="pos-badge">1º</span></a>
+          <a href="#sel-suica" class="selecao-link" data-spy="sel-suica"><img src="https://flagcdn.com/w40/ch.png" class="flag-sidebar img-fluid" alt="Suíça">Suíça<span class="pos-badge">2º</span></a>
+          <a href="#sel-catar" class="selecao-link" data-spy="sel-catar"><img src="https://flagcdn.com/w40/qa.png" class="flag-sidebar img-fluid" alt="Catar">Catar<span class="pos-badge">3º</span></a>
+          <a href="#sel-bosnia" class="selecao-link" data-spy="sel-bosnia"><img src="https://flagcdn.com/w40/ba.png" class="flag-sidebar img-fluid" alt="Bósnia">Bósnia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO C -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="C" data-target="grupoC">
+          <span class="grupo-badge">C</span>
+          <span class="grupo-accordion-title">GRUPO C</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoC">
+          <a href="#sel-brasil" class="selecao-link" data-spy="sel-brasil"><img src="https://flagcdn.com/w40/br.png" class="flag-sidebar img-fluid" alt="Brasil">Brasil<span class="pos-badge">1º</span></a>
+          <a href="#sel-marrocos" class="selecao-link" data-spy="sel-marrocos"><img src="https://flagcdn.com/w40/ma.png" class="flag-sidebar img-fluid" alt="Marrocos">Marrocos<span class="pos-badge">2º</span></a>
+          <a href="#sel-escocia" class="selecao-link" data-spy="sel-escocia"><img src="https://flagcdn.com/w40/gb-sct.png" class="flag-sidebar img-fluid" alt="Escócia">Escócia<span class="pos-badge">3º</span></a>
+          <a href="#sel-haiti" class="selecao-link" data-spy="sel-haiti"><img src="https://flagcdn.com/w40/ht.png" class="flag-sidebar img-fluid" alt="Haiti">Haiti<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO D -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="D" data-target="grupoD">
+          <span class="grupo-badge">D</span>
+          <span class="grupo-accordion-title">GRUPO D</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoD">
+          <a href="#sel-eua" class="selecao-link" data-spy="sel-eua"><img src="https://flagcdn.com/w40/us.png" class="flag-sidebar img-fluid" alt="EUA">EUA<span class="pos-badge">1º</span></a>
+          <a href="#sel-australia" class="selecao-link" data-spy="sel-australia"><img src="https://flagcdn.com/w40/au.png" class="flag-sidebar img-fluid" alt="Austrália">Austrália<span class="pos-badge">2º</span></a>
+          <a href="#sel-turquia" class="selecao-link" data-spy="sel-turquia"><img src="https://flagcdn.com/w40/tr.png" class="flag-sidebar img-fluid" alt="Turquia">Turquia<span class="pos-badge">3º</span></a>
+          <a href="#sel-paraguai" class="selecao-link" data-spy="sel-paraguai"><img src="https://flagcdn.com/w40/py.png" class="flag-sidebar img-fluid" alt="Paraguai">Paraguai<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO E -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="E" data-target="grupoE">
+          <span class="grupo-badge">E</span>
+          <span class="grupo-accordion-title">GRUPO E</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoE">
+          <a href="#sel-alemanha" class="selecao-link" data-spy="sel-alemanha"><img src="https://flagcdn.com/w40/de.png" class="flag-sidebar img-fluid" alt="Alemanha">Alemanha<span class="pos-badge">1º</span></a>
+          <a href="#sel-costa-marfim" class="selecao-link" data-spy="sel-costa-marfim"><img src="https://flagcdn.com/w40/ci.png" class="flag-sidebar img-fluid" alt="Costa do Marfim">Costa do Marfim<span class="pos-badge">2º</span></a>
+          <a href="#sel-equador" class="selecao-link" data-spy="sel-equador"><img src="https://flagcdn.com/w40/ec.png" class="flag-sidebar img-fluid" alt="Equador">Equador<span class="pos-badge">3º</span></a>
+          <a href="#sel-curacao" class="selecao-link" data-spy="sel-curacao"><img src="https://flagcdn.com/w40/cw.png" class="flag-sidebar img-fluid" alt="Curaçao">Curaçao<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO F -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="F" data-target="grupoF">
+          <span class="grupo-badge">F</span>
+          <span class="grupo-accordion-title">GRUPO F</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoF">
+          <a href="#sel-holanda" class="selecao-link" data-spy="sel-holanda"><img src="https://flagcdn.com/w40/nl.png" class="flag-sidebar img-fluid" alt="Holanda">Holanda<span class="pos-badge">1º</span></a>
+          <a href="#sel-japao" class="selecao-link" data-spy="sel-japao"><img src="https://flagcdn.com/w40/jp.png" class="flag-sidebar img-fluid" alt="Japão">Japão<span class="pos-badge">2º</span></a>
+          <a href="#sel-suecia" class="selecao-link" data-spy="sel-suecia"><img src="https://flagcdn.com/w40/se.png" class="flag-sidebar img-fluid" alt="Suécia">Suécia<span class="pos-badge">3º</span></a>
+          <a href="#sel-tunisia" class="selecao-link" data-spy="sel-tunisia"><img src="https://flagcdn.com/w40/tn.png" class="flag-sidebar img-fluid" alt="Tunísia">Tunísia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO G -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="G" data-target="grupoG">
+          <span class="grupo-badge">G</span>
+          <span class="grupo-accordion-title">GRUPO G</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoG">
+          <a href="#sel-belgica" class="selecao-link" data-spy="sel-belgica"><img src="https://flagcdn.com/w40/be.png" class="flag-sidebar img-fluid" alt="Bélgica">Bélgica<span class="pos-badge">1º</span></a>
+          <a href="#sel-egito" class="selecao-link" data-spy="sel-egito"><img src="https://flagcdn.com/w40/eg.png" class="flag-sidebar img-fluid" alt="Egito">Egito<span class="pos-badge">2º</span></a>
+          <a href="#sel-ira" class="selecao-link" data-spy="sel-ira"><img src="https://flagcdn.com/w40/ir.png" class="flag-sidebar img-fluid" alt="Irã">Irã<span class="pos-badge">3º</span></a>
+          <a href="#sel-nova-zelandia" class="selecao-link" data-spy="sel-nova-zelandia"><img src="https://flagcdn.com/w40/nz.png" class="flag-sidebar img-fluid" alt="Nova Zelândia">Nova Zelândia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO H -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="H" data-target="grupoH">
+          <span class="grupo-badge">H</span>
+          <span class="grupo-accordion-title">GRUPO H</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoH">
+          <a href="#sel-espanha" class="selecao-link" data-spy="sel-espanha"><img src="https://flagcdn.com/w40/es.png" class="flag-sidebar img-fluid" alt="Espanha">Espanha<span class="pos-badge">1º</span></a>
+          <a href="#sel-uruguai" class="selecao-link" data-spy="sel-uruguai"><img src="https://flagcdn.com/w40/uy.png" class="flag-sidebar img-fluid" alt="Uruguai">Uruguai<span class="pos-badge">2º</span></a>
+          <a href="#sel-arabia" class="selecao-link" data-spy="sel-arabia"><img src="https://flagcdn.com/w40/sa.png" class="flag-sidebar img-fluid" alt="Arábia Saudita">Arábia Saudita<span class="pos-badge">3º</span></a>
+          <a href="#sel-cabo-verde" class="selecao-link" data-spy="sel-cabo-verde"><img src="https://flagcdn.com/w40/cv.png" class="flag-sidebar img-fluid" alt="Cabo Verde">Cabo Verde<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO I -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="I" data-target="grupoI">
+          <span class="grupo-badge">I</span>
+          <span class="grupo-accordion-title">GRUPO I</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoI">
+          <a href="#sel-franca" class="selecao-link" data-spy="sel-franca"><img src="https://flagcdn.com/w40/fr.png" class="flag-sidebar img-fluid" alt="França">França<span class="pos-badge">1º</span></a>
+          <a href="#sel-senegal" class="selecao-link" data-spy="sel-senegal"><img src="https://flagcdn.com/w40/sn.png" class="flag-sidebar img-fluid" alt="Senegal">Senegal<span class="pos-badge">2º</span></a>
+          <a href="#sel-iraque" class="selecao-link" data-spy="sel-iraque"><img src="https://flagcdn.com/w40/iq.png" class="flag-sidebar img-fluid" alt="Iraque">Iraque<span class="pos-badge">3º</span></a>
+          <a href="#sel-noruega" class="selecao-link" data-spy="sel-noruega"><img src="https://flagcdn.com/w40/no.png" class="flag-sidebar img-fluid" alt="Noruega">Noruega<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO J -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="J" data-target="grupoJ">
+          <span class="grupo-badge">J</span>
+          <span class="grupo-accordion-title">GRUPO J</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoJ">
+          <a href="#sel-argentina" class="selecao-link" data-spy="sel-argentina"><img src="https://flagcdn.com/w40/ar.png" class="flag-sidebar img-fluid" alt="Argentina">Argentina<span class="pos-badge">1º</span></a>
+          <a href="#sel-argelia" class="selecao-link" data-spy="sel-argelia"><img src="https://flagcdn.com/w40/dz.png" class="flag-sidebar img-fluid" alt="Argélia">Argélia<span class="pos-badge">2º</span></a>
+          <a href="#sel-austria" class="selecao-link" data-spy="sel-austria"><img src="https://flagcdn.com/w40/at.png" class="flag-sidebar img-fluid" alt="Áustria">Áustria<span class="pos-badge">3º</span></a>
+          <a href="#sel-jordania" class="selecao-link" data-spy="sel-jordania"><img src="https://flagcdn.com/w40/jo.png" class="flag-sidebar img-fluid" alt="Jordânia">Jordânia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO K -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="K" data-target="grupoK">
+          <span class="grupo-badge">K</span>
+          <span class="grupo-accordion-title">GRUPO K</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoK">
+          <a href="#sel-portugal" class="selecao-link" data-spy="sel-portugal"><img src="https://flagcdn.com/w40/pt.png" class="flag-sidebar img-fluid" alt="Portugal">Portugal<span class="pos-badge">1º</span></a>
+          <a href="#sel-rd-congo" class="selecao-link" data-spy="sel-rd-congo"><img src="https://flagcdn.com/w40/cd.png" class="flag-sidebar img-fluid" alt="RD Congo">RD Congo<span class="pos-badge">2º</span></a>
+          <a href="#sel-uzbequistao" class="selecao-link" data-spy="sel-uzbequistao"><img src="https://flagcdn.com/w40/uz.png" class="flag-sidebar img-fluid" alt="Uzbequistão">Uzbequistão<span class="pos-badge">3º</span></a>
+          <a href="#sel-colombia" class="selecao-link" data-spy="sel-colombia"><img src="https://flagcdn.com/w40/co.png" class="flag-sidebar img-fluid" alt="Colômbia">Colômbia<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+      <!-- GRUPO L -->
+      <div class="grupo-accordion-item">
+        <div class="grupo-accordion-header" data-grupo="L" data-target="grupoL">
+          <span class="grupo-badge">L</span>
+          <span class="grupo-accordion-title">GRUPO L</span>
+          <i class="bi bi-chevron-right grupo-accordion-arrow"></i>
+        </div>
+        <div class="grupo-accordion-body" id="body-grupoL">
+          <a href="#sel-inglaterra" class="selecao-link" data-spy="sel-inglaterra"><img src="https://flagcdn.com/w40/gb-eng.png" class="flag-sidebar img-fluid" alt="Inglaterra">Inglaterra<span class="pos-badge">1º</span></a>
+          <a href="#sel-croacia" class="selecao-link" data-spy="sel-croacia"><img src="https://flagcdn.com/w40/hr.png" class="flag-sidebar img-fluid" alt="Croácia">Croácia<span class="pos-badge">2º</span></a>
+          <a href="#sel-gana" class="selecao-link" data-spy="sel-gana"><img src="https://flagcdn.com/w40/gh.png" class="flag-sidebar img-fluid" alt="Gana">Gana<span class="pos-badge">3º</span></a>
+          <a href="#sel-panama" class="selecao-link" data-spy="sel-panama"><img src="https://flagcdn.com/w40/pa.png" class="flag-sidebar img-fluid" alt="Panamá">Panamá<span class="pos-badge">4º</span></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── CONTEÚDO PRINCIPAL ─── -->
+  <div class="main-content">
+
+    <!-- HERO -->
+    <section id="inicio">
+      <div class="hero-section">
+        <div class="container-fluid">
+          <div class="row align-items-center gy-5">
+            <div class="col-lg-5 text-center">
+              <img src="img/album.png"
+                class="album-float img-fluid" alt="Álbum Panini Copa do Mundo 2026">
+            </div>
+            <div class="col-lg-7">
+              <div class="glass-card p-5">
+                <p style="color:var(--gold);font-family:'Orbitron';font-size:0.8rem;letter-spacing:3px;">EDIÇÃO ESPECIAL</p>
+                <h1 class="mt-2" style="font-family:'Orbitron';font-size:2.2rem;font-weight:900;line-height:1.2;">
+                  WORLD CUP<br><span style="color:var(--gold);">2026</span>
+                </h1>
+                <p class="mt-3" style="font-size:1.05rem;color:#b0b0a8;line-height:1.7;">
+                  Acompanhe todos os jogos, grupos e o chaveamento completo da Copa do Mundo 2026.
+                  Use o menu lateral com <strong style="color:var(--gold);">Scrollspy</strong> — role a página e veja o destaque da seleção selecionada!
+                </p>
+                <div class="d-flex gap-3 mt-4 flex-wrap">
+                  <a href="#grupos" class="btn btn-gold"><i class="bi bi-flag me-2"></i>Ver Grupos</a>
+                  <a href="#chaveamento" class="btn btn-outline-warning rounded-pill px-4 fw-bold">
+                    <i class="bi bi-diagram-3 me-2"></i>Mata-Mata
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRUPOS -->
+    <section id="grupos" style="scroll-margin-top:80px;">
+      <div class="section-title">
+        <i class="bi bi-grid-3x3-gap-fill me-2"></i>Grupos da Copa do Mundo 2026
+      </div>
+
+      <div class="grupos-grid">
+
+        <!-- GRUPO A -->
+        <div id="grupoA" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO A</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-mexico"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/mx.png" class="flag-mini img-fluid" alt="México"> México</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-africa-sul"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/za.png" class="flag-mini img-fluid" alt="África do Sul"> África do Sul</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-coreia"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/kr.png" class="flag-mini img-fluid" alt="Coreia do Sul"> Coreia do Sul</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-tchequia"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/cz.png" class="flag-mini img-fluid" alt="Tchéquia"> Tchéquia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO B -->
+        <div id="grupoB" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO B</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-canada"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/ca.png" class="flag-mini img-fluid" alt="Canadá"> Canadá</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-suica"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/ch.png" class="flag-mini img-fluid" alt="Suíça"> Suíça</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-catar"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/qa.png" class="flag-mini img-fluid" alt="Catar"> Catar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-bosnia"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/ba.png" class="flag-mini img-fluid" alt="Bósnia"> Bósnia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO C -->
+        <div id="grupoC" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO C</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-brasil"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/br.png" class="flag-mini img-fluid" alt="Brasil"> Brasil</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-marrocos"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/ma.png" class="flag-mini img-fluid" alt="Marrocos"> Marrocos</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-escocia"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/gb-sct.png" class="flag-mini img-fluid" alt="Escócia"> Escócia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-haiti"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/ht.png" class="flag-mini img-fluid" alt="Haiti"> Haiti</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO D -->
+        <div id="grupoD" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO D</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-eua"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/us.png" class="flag-mini img-fluid" alt="EUA"> EUA</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-australia"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/au.png" class="flag-mini img-fluid" alt="Austrália"> Austrália</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-turquia"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/tr.png" class="flag-mini img-fluid" alt="Turquia"> Turquia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-paraguai"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/py.png" class="flag-mini img-fluid" alt="Paraguai"> Paraguai</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO E -->
+        <div id="grupoE" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO E</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-alemanha"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/de.png" class="flag-mini img-fluid" alt="Alemanha"> Alemanha</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-costa-marfim"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/ci.png" class="flag-mini img-fluid" alt="Costa do Marfim"> Costa do Marfim</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-equador"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/ec.png" class="flag-mini img-fluid" alt="Equador"> Equador</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-curacao"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/cw.png" class="flag-mini img-fluid" alt="Curaçao"> Curaçao</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO F -->
+        <div id="grupoF" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO F</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-holanda"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/nl.png" class="flag-mini img-fluid" alt="Holanda"> Holanda</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-japao"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/jp.png" class="flag-mini img-fluid" alt="Japão"> Japão</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-suecia"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/se.png" class="flag-mini img-fluid" alt="Suécia"> Suécia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-tunisia"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/tn.png" class="flag-mini img-fluid" alt="Tunísia"> Tunísia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO G -->
+        <div id="grupoG" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO G</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-belgica"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/be.png" class="flag-mini img-fluid" alt="Bélgica"> Bélgica</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-egito"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/eg.png" class="flag-mini img-fluid" alt="Egito"> Egito</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-ira"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/ir.png" class="flag-mini img-fluid" alt="Irã"> Irã</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-nova-zelandia"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/nz.png" class="flag-mini img-fluid" alt="Nova Zelândia"> Nova Zelândia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO H -->
+        <div id="grupoH" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO H</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-espanha"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/es.png" class="flag-mini img-fluid" alt="Espanha"> Espanha</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-uruguai"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/uy.png" class="flag-mini img-fluid" alt="Uruguai"> Uruguai</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-arabia"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/sa.png" class="flag-mini img-fluid" alt="Arábia Saudita"> Arábia Saudita</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-cabo-verde"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/cv.png" class="flag-mini img-fluid" alt="Cabo Verde"> Cabo Verde</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO I -->
+        <div id="grupoI" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO I</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-franca"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/fr.png" class="flag-mini img-fluid" alt="França"> França</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-senegal"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/sn.png" class="flag-mini img-fluid" alt="Senegal"> Senegal</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-iraque"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/iq.png" class="flag-mini img-fluid" alt="Iraque"> Iraque</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-noruega"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/no.png" class="flag-mini img-fluid" alt="Noruega"> Noruega</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO J -->
+        <div id="grupoJ" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO J</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-argentina"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/ar.png" class="flag-mini img-fluid" alt="Argentina"> Argentina</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-argelia"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/dz.png" class="flag-mini img-fluid" alt="Argélia"> Argélia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-austria"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/at.png" class="flag-mini img-fluid" alt="Áustria"> Áustria</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-jordania"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/jo.png" class="flag-mini img-fluid" alt="Jordânia"> Jordânia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO K -->
+        <div id="grupoK" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO K</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-portugal"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/pt.png" class="flag-mini img-fluid" alt="Portugal"> Portugal</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-rd-congo"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/cd.png" class="flag-mini img-fluid" alt="RD Congo"> RD Congo</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-uzbequistao"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/uz.png" class="flag-mini img-fluid" alt="Uzbequistão"> Uzbequistão</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-colombia"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/co.png" class="flag-mini img-fluid" alt="Colômbia"> Colômbia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- GRUPO L -->
+        <div id="grupoL" class="grupo-card">
+          <div class="grupo-header"><h3>GRUPO L</h3></div>
+          <table class="grupo-tabela">
+            <thead><tr><th>#</th><th>Seleção</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+            <tbody>
+              <tr id="sel-inglaterra"><td>1</td><td class="team-cell"><img src="https://flagcdn.com/w40/gb-eng.png" class="flag-mini img-fluid" alt="Inglaterra"> Inglaterra</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-croacia"><td>2</td><td class="team-cell"><img src="https://flagcdn.com/w40/hr.png" class="flag-mini img-fluid" alt="Croácia"> Croácia</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-gana"><td>3</td><td class="team-cell"><img src="https://flagcdn.com/w40/gh.png" class="flag-mini img-fluid" alt="Gana"> Gana</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              <tr id="sel-panama"><td>4</td><td class="team-cell"><img src="https://flagcdn.com/w40/pa.png" class="flag-mini img-fluid" alt="Panamá"> Panamá</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- FIM grupos-grid -->
+    </section>
+
+    <!-- ─── CHAVEAMENTO ─── -->
+    <section id="chaveamento" class="chaveamento-section mt-5">
+      <div class="section-title">
+        <i class="bi bi-diagram-3 me-2"></i>Chaveamento — Fase Eliminatória
+      </div>
+      <div class="bracket-outer">
+        <div id="bracket-canvas" style="position:relative;">
+          <svg id="bracket-svg" style="position:absolute;top:0;left:0;pointer-events:none;"></svg>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- FIM main-content -->
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <p>© 2026 PANINI — Álbum Oficial Copa do Mundo 2026 · Todos os direitos reservados.</p>
+    <p>Desenvolvido por Jonathan Arsego Lêla</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+    /* SCROLLSPY + ACORDEÃO INTEGRADOS */
+    
+    // Inicializa o Scrollspy do Bootstrap
+    const scrollspy = new bootstrap.ScrollSpy(document.body, {
+      target: '#selecoes-scrollspy',
+      offset: 100
+    });
+
+    // Mapeamento: qual seleção pertence a qual grupo
+    const selecaoGrupoMap = {
+      'sel-mexico': 'A', 'sel-africa-sul': 'A', 'sel-coreia': 'A', 'sel-tchequia': 'A',
+      'sel-canada': 'B', 'sel-suica': 'B', 'sel-catar': 'B', 'sel-bosnia': 'B',
+      'sel-brasil': 'C', 'sel-marrocos': 'C', 'sel-escocia': 'C', 'sel-haiti': 'C',
+      'sel-eua': 'D', 'sel-australia': 'D', 'sel-turquia': 'D', 'sel-paraguai': 'D',
+      'sel-alemanha': 'E', 'sel-costa-marfim': 'E', 'sel-equador': 'E', 'sel-curacao': 'E',
+      'sel-holanda': 'F', 'sel-japao': 'F', 'sel-suecia': 'F', 'sel-tunisia': 'F',
+      'sel-belgica': 'G', 'sel-egito': 'G', 'sel-ira': 'G', 'sel-nova-zelandia': 'G',
+      'sel-espanha': 'H', 'sel-uruguai': 'H', 'sel-arabia': 'H', 'sel-cabo-verde': 'H',
+      'sel-franca': 'I', 'sel-senegal': 'I', 'sel-iraque': 'I', 'sel-noruega': 'I',
+      'sel-argentina': 'J', 'sel-argelia': 'J', 'sel-austria': 'J', 'sel-jordania': 'J',
+      'sel-portugal': 'K', 'sel-rd-congo': 'K', 'sel-uzbequistao': 'K', 'sel-colombia': 'K',
+      'sel-inglaterra': 'L', 'sel-croacia': 'L', 'sel-gana': 'L', 'sel-panama': 'L'
+    };
+
+    // Função para abrir o acordeão do grupo e destacar a seleção
+    function atualizarSidebar(selecaoId) {
+      const grupoLetra = selecaoGrupoMap[selecaoId];
+      if (!grupoLetra) return;
+      
+      const targetId = 'grupo' + grupoLetra;
+      const body = document.getElementById('body-' + targetId);
+      const header = document.querySelector(`.grupo-accordion-header[data-target="${targetId}"]`);
+      
+      // Fecha todos os grupos
+      document.querySelectorAll('.grupo-accordion-header').forEach(h => h.classList.remove('active'));
+      document.querySelectorAll('.grupo-accordion-body').forEach(b => b.classList.remove('open'));
+      
+      // Abre o grupo correto
+      if (header && body) {
+        header.classList.add('active');
+        body.classList.add('open');
+      }
+      
+      // Remove destaque de todas as seleções
+      document.querySelectorAll('.selecao-link').forEach(l => l.classList.remove('active-selecao'));
+      
+      // Destaca a seleção correta
+      const linkAtivo = document.querySelector(`.selecao-link[data-spy="${selecaoId}"]`);
+      if (linkAtivo) {
+        linkAtivo.classList.add('active-selecao');
+        // Scroll dentro da sidebar para mostrar o link ativo
+        linkAtivo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    // Monitora mudanças no Scrollspy
+    const observer = new MutationObserver(() => {
+      const ativo = document.querySelector('#selecoes-scrollspy .nav-link.active');
+      if (ativo) {
+        const href = ativo.getAttribute('href');
+        if (href) {
+          const selecaoId = href.substring(1); // Remove o #
+          atualizarSidebar(selecaoId);
+        }
+      }
+    });
+
+    const spyTarget = document.getElementById('selecoes-scrollspy');
+    if (spyTarget) {
+      observer.observe(spyTarget, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    }
+
+    /* ACORDEÃO MANUAL (CLIQUE) */
+    document.querySelectorAll('.grupo-accordion-header').forEach(header => {
+      header.addEventListener('click', function(e) {
+        // Não interfere se clicou num link de seleção
+        if (e.target.closest('.selecao-link')) return;
+        
+        const targetId = this.getAttribute('data-target');
+        const body = document.getElementById('body-' + targetId);
+        const isActive = this.classList.contains('active');
+        
+        // Fecha todos
+        document.querySelectorAll('.grupo-accordion-header').forEach(h => h.classList.remove('active'));
+        document.querySelectorAll('.grupo-accordion-body').forEach(b => b.classList.remove('open'));
+        
+        // Abre o clicado
+        if (!isActive && body) {
+          this.classList.add('active');
+          body.classList.add('open');
+        }
+        
+        // Rola a página
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Mobile: fecha sidebar
+        if (window.innerWidth < 993) {
+          document.getElementById('mainSidebar').classList.remove('open');
+        }
+      });
+    });
+
+    // Links das seleções
+    document.querySelectorAll('.selecao-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Destaca visualmente a linha
+          target.classList.add('scroll-highlight');
+          setTimeout(() => target.classList.remove('scroll-highlight'), 2000);
+        }
+        if (window.innerWidth < 993) {
+          document.getElementById('mainSidebar').classList.remove('open');
+        }
+      });
+    });
+
+    /* Menu mobile */
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('mainSidebar').classList.toggle('open');
+    });
+
+    /* CHAVEAMENTO */
+    const G = '#d4af37';
+    const CARD_W = 170;
+    const CARD_H = 56;
+    const ROW_GAP = 40;
+    const COL_W = CARD_W + 30;
+    const PAD_TOP = 46;
+    const PAD_H = 24;
+
+    const left16 = [
+      { jogo: 'J74', date: '29/06 · 17:30', t1: { name: 'França', flag: 'fr' }, t2: { name: 'Argentina', flag: 'ar' } },
+      { jogo: 'J77', date: '30/06 · 18:00', t1: { name: 'Brasil', flag: 'br' }, t2: { name: 'Alemanha', flag: 'de' } },
+      { jogo: 'J73', date: '28/06 · 16:00', t1: { name: 'Inglaterra', flag: 'gb-eng' }, t2: { name: 'Espanha', flag: 'es' } },
+      { jogo: 'J75', date: '29/06 · 22:00', t1: { name: 'Holanda', flag: 'nl' }, t2: { name: 'Portugal', flag: 'pt' } },
+      { jogo: 'J83', date: '02/07 · 20:00', t1: { name: 'México', flag: 'mx' }, t2: { name: 'Japão', flag: 'jp' } },
+      { jogo: 'J84', date: '02/07 · 16:00', t1: { name: 'Bélgica', flag: 'be' }, t2: { name: 'Uruguai', flag: 'uy' } },
+      { jogo: 'J81', date: '01/07 · 21:00', t1: { name: 'Croácia', flag: 'hr' }, t2: { name: 'Suécia', flag: 'se' } },
+      { jogo: 'J82', date: '02/07 · 17:00', t1: { name: 'EUA', flag: 'us' }, t2: { name: 'Colômbia', flag: 'co' } },
+    ];
+
+    const right16 = [
+      { jogo: 'J76', date: '29/06 · 14:00', t1: { name: 'Itália', flag: 'it' }, t2: { name: 'Suíça', flag: 'ch' } },
+      { jogo: 'J78', date: '30/06 · 14:00', t1: { name: 'Espanha', flag: 'es' }, t2: { name: 'Inglaterra', flag: 'gb-eng' } },
+      { jogo: 'J79', date: '30/06 · 22:00', t1: { name: 'França', flag: 'fr' }, t2: { name: 'Brasil', flag: 'br' } },
+      { jogo: 'J80', date: '01/07 · 13:00', t1: { name: 'Alemanha', flag: 'de' }, t2: { name: 'Holanda', flag: 'nl' } },
+      { jogo: 'J86', date: '03/07 · 19:00', t1: { name: 'Argentina', flag: 'ar' }, t2: { name: 'Portugal', flag: 'pt' } },
+      { jogo: 'J88', date: '03/07 · 15:00', t1: { name: 'Bélgica', flag: 'be' }, t2: { name: 'Croácia', flag: 'hr' } },
+      { jogo: 'J85', date: '03/07 · 00:00', t1: { name: 'Japão', flag: 'jp' }, t2: { name: 'México', flag: 'mx' } },
+      { jogo: 'J87', date: '03/07 · 17:00', t1: { name: 'Uruguai', flag: 'uy' }, t2: { name: 'EUA', flag: 'us' } },
+    ];
+
+    const leftQF = [
+      { jogo: 'J89', date: '04/07 · 18:00', t1: { name: 'Venc. J74', flag: null }, t2: { name: 'Venc. J77', flag: null } },
+      { jogo: 'J90', date: '04/07 · 14:00', t1: { name: 'Venc. J73', flag: null }, t2: { name: 'Venc. J75', flag: null } },
+      { jogo: 'J93', date: '06/07 · 16:00', t1: { name: 'Venc. J83', flag: null }, t2: { name: 'Venc. J84', flag: null } },
+      { jogo: 'J94', date: '06/07 · 21:00', t1: { name: 'Venc. J81', flag: null }, t2: { name: 'Venc. J82', flag: null } },
+    ];
+
+    const rightQF = [
+      { jogo: 'J91', date: '05/07 · 17:00', t1: { name: 'Venc. J76', flag: null }, t2: { name: 'Venc. J78', flag: null } },
+      { jogo: 'J92', date: '05/07 · 21:00', t1: { name: 'Venc. J79', flag: null }, t2: { name: 'Venc. J80', flag: null } },
+      { jogo: 'J95', date: '07/07 · 13:00', t1: { name: 'Venc. J86', flag: null }, t2: { name: 'Venc. J88', flag: null } },
+      { jogo: 'J96', date: '07/07 · 17:00', t1: { name: 'Venc. J85', flag: null }, t2: { name: 'Venc. J87', flag: null } },
+    ];
+
+    const leftSF = [
+      { jogo: 'J97', date: '09/07 · 17:00', t1: { name: 'Venc. QF1', flag: null }, t2: { name: 'Venc. QF2', flag: null } },
+      { jogo: 'J98', date: '10/07 · 16:00', t1: { name: 'Venc. QF3', flag: null }, t2: { name: 'Venc. QF4', flag: null } },
+    ];
+
+    const rightSF = [
+      { jogo: 'J99', date: '11/07 · 18:00', t1: { name: 'Venc. QF5', flag: null }, t2: { name: 'Venc. QF6', flag: null } },
+      { jogo: 'J100', date: '11/07 · 22:00', t1: { name: 'Venc. QF7', flag: null }, t2: { name: 'Venc. QF8', flag: null } },
+    ];
+
+    const finalMatch = { jogo: 'J104', date: '19/07 · 16:00', t1: { name: 'Venc. SF1', flag: null }, t2: { name: 'Venc. SF2', flag: null } };
+    const thirdPlace = { jogo: 'J103', date: '18/07 · 18:00', t1: { name: 'Perd. SF1', flag: null }, t2: { name: 'Perd. SF2', flag: null } };
+
+    const NUM_COLS = 7;
+    function colX(c) { return PAD_H + c * COL_W; }
+    function cy(y) { return y + CARD_H / 2; }
+
+    function buildOitavasYs() {
+      const ys = [];
+      for (let i = 0; i < 8; i++) ys.push(PAD_TOP + i * (CARD_H + ROW_GAP));
+      return ys;
+    }
+
+    function buildBracket() {
+      const canvas = document.getElementById('bracket-canvas');
+      const svg = document.getElementById('bracket-svg');
+      if (!canvas || !svg) return;
+
+      canvas.querySelectorAll('.bk-match, .bk-col-label').forEach(el => el.remove());
+      svg.innerHTML = '';
+
+      const oYs = buildOitavasYs();
+      const oCys = oYs.map(y => cy(y));
+      const qYs = []; for (let i = 0; i < 4; i++) qYs.push((oCys[i*2]+oCys[i*2+1])/2 - CARD_H/2);
+      const qCys = qYs.map(y => cy(y));
+      const sYs = []; for (let i = 0; i < 2; i++) sYs.push((qCys[i*2]+qCys[i*2+1])/2 - CARD_H/2);
+      const sCys = sYs.map(y => cy(y));
+      const fY = (sCys[0]+sCys[1])/2 - CARD_H/2;
+      const fCy = cy(fY);
+      const t3Y = fY + CARD_H + 40;
+
+      const totalH = Math.max(oYs[7]+CARD_H, t3Y+CARD_H) + PAD_TOP + 100;
+      const totalW = colX(NUM_COLS) + PAD_H;
+
+      canvas.style.width = totalW + 'px';
+      canvas.style.height = totalH + 'px';
+      svg.setAttribute('width', totalW);
+      svg.setAttribute('height', totalH);
+      svg.setAttribute('viewBox', `0 0 ${totalW} ${totalH}`);
+
+      const GOLD_DIM = 'rgba(212,175,55,0.55)';
+      svg.innerHTML = `<defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="${G}" opacity="0.75"/></marker><marker id="arr-r" markerWidth="7" markerHeight="7" refX="2" refY="3.5" orient="auto"><path d="M7,0 L0,3.5 L7,7 Z" fill="${G}" opacity="0.75"/></marker></defs>`;
+
+      function line(x1,y1,x2,y2,rev=false){
+        const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        const mx=(x1+x2)/2;
+        p.setAttribute('d',`M${x1},${y1} H${mx} V${y2} H${x2}`);
+        p.setAttribute('fill','none');p.setAttribute('stroke',GOLD_DIM);p.setAttribute('stroke-width','1.7');
+        p.setAttribute('marker-end',rev?'url(#arr-r)':'url(#arr)');svg.appendChild(p);
+      }
+
+      for(let i=0;i<4;i++){line(colX(0)+CARD_W,oCys[i*2],colX(1),qCys[i]);line(colX(0)+CARD_W,oCys[i*2+1],colX(1),qCys[i]);}
+      for(let i=0;i<2;i++){line(colX(1)+CARD_W,qCys[i*2],colX(2),sCys[i]);line(colX(1)+CARD_W,qCys[i*2+1],colX(2),sCys[i]);}
+      line(colX(2)+CARD_W,sCys[0],colX(3),fCy);line(colX(2)+CARD_W,sCys[1],colX(3),fCy);
+      for(let i=0;i<4;i++){line(colX(6),oCys[i*2],colX(5)+CARD_W,qCys[i],true);line(colX(6),oCys[i*2+1],colX(5)+CARD_W,qCys[i],true);}
+      for(let i=0;i<2;i++){line(colX(5),qCys[i*2],colX(4)+CARD_W,sCys[i],true);line(colX(5),qCys[i*2+1],colX(4)+CARD_W,sCys[i],true);}
+      line(colX(4),sCys[0],colX(3)+CARD_W,fCy,true);line(colX(4),sCys[1],colX(3)+CARD_W,fCy,true);
+
+      [{col:0,t:'OITAVAS'},{col:1,t:'QUARTAS'},{col:2,t:'SEMIFINAL'},{col:3,t:'FINAL'},{col:4,t:'SEMIFINAL'},{col:5,t:'QUARTAS'},{col:6,t:'OITAVAS'}].forEach(({col,t})=>{const d=document.createElement('div');d.className='bk-col-label';d.style.left=colX(col)+'px';d.style.width=CARD_W+'px';d.textContent=t;canvas.appendChild(d);});
+
+      const lbl3=document.createElement('div');lbl3.className='bk-col-label';lbl3.style.left=colX(3)+'px';lbl3.style.top=(t3Y-22)+'px';lbl3.style.width=CARD_W+'px';lbl3.style.color='#aaa';lbl3.style.fontSize='0.58rem';lbl3.textContent='DECISÃO 3º LUGAR';canvas.appendChild(lbl3);
+
+      function mkCard(m,x,y,fin=false){
+        const c=document.createElement('div');c.className='bk-match'+(fin?' is-final':'');
+        c.style.left=x+'px';c.style.top=y+'px';c.style.width=CARD_W+'px';
+        const fl=(f)=>f?`<img src="https://flagcdn.com/w40/${f}.png" style="width:24px;height:16px;object-fit:cover;border-radius:3px;">`:`<span class="bk-flag-ph"></span>`;
+        c.innerHTML=`<div class="bk-date">${m.date}</div><div class="bk-team">${fl(m.t1.flag)}<span>${m.t1.name}</span></div><div class="bk-team">${fl(m.t2.flag)}<span>${m.t2.name}</span></div>`;
+        canvas.appendChild(c);
+      }
+
+      left16.forEach((m,i)=>mkCard(m,colX(0),oYs[i]));
+      leftQF.forEach((m,i)=>mkCard(m,colX(1),qYs[i]));
+      leftSF.forEach((m,i)=>mkCard(m,colX(2),sYs[i]));
+      mkCard(finalMatch,colX(3),fY,true);
+      mkCard(thirdPlace,colX(3),t3Y);
+      rightSF.forEach((m,i)=>mkCard(m,colX(4),sYs[i]));
+      rightQF.forEach((m,i)=>mkCard(m,colX(5),qYs[i]));
+      right16.forEach((m,i)=>mkCard(m,colX(6),oYs[i]));
+    }
+
+    window.addEventListener('load', buildBracket);
+  </script>
+</body>
+
+</html>
