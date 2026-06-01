@@ -146,3 +146,7 @@ def teste():
         "js": os.path.exists("static/js/main.js"),
         "logo": os.path.exists("static/imagens/logo.png")
     })
+    
+@app.route('/jon')
+def jon():
+    return "ROTA NOVA FUNCIONANDO"
