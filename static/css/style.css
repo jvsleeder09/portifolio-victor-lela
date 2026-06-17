@@ -140,7 +140,7 @@ ul li strong{color:var(--text-color)}
 .skill-level{height:100%;background:linear-gradient(90deg,var(--primary-color),var(--accent-color));border-radius:10px}
 
 /* CONTACT */
-.contact-container{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:40px}
+.contact-container{display:grid;grid-template-columns:1fr 1.5fr;gap:30px;margin-top:40px}
 .contact-info,.contact-form{padding:30px}
 .contact-info h3,.contact-form h3{margin-bottom:30px}
 .contact-item{display:flex;align-items:flex-start;margin-bottom:25px;gap:15px}
@@ -157,6 +157,8 @@ ul li strong{color:var(--text-color)}
 #formMessage{margin-top:20px;padding:15px;border-radius:10px;text-align:center;font-size:0.95rem;display:none}
 .contact-backup{margin-top:25px;padding:15px;background:rgba(59,130,246,0.1);border-radius:10px;text-align:center}
 .contact-direct{margin-top:15px;text-align:center}
+
+
 
 /* FOOTER */
 footer{text-align:center;padding:40px 0;margin-top:80px;color:var(--text-secondary);border-top:1px solid rgba(255,255,255,0.1)}
