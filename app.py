@@ -1,25 +1,15 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import os
+import requests
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# ==================== SENDGRID ====================
+# ==================== WEB3FORMS ====================
 
-try:
-    from sendgrid import SendGridAPIClient
-    from sendgrid.helpers.mail import Mail, Email, To
-
-    SENDGRID_AVAILABLE = True
-except ImportError:
-    SENDGRID_AVAILABLE = False
-    print("⚠️ SendGrid não instalado.")
-
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-SENDGRID_FROM_EMAIL = "victorarsego1@gmail.com"
-SENDGRID_TO_EMAIL = "victorarsego1@gmail.com"
+WEB3FORMS_KEY = os.environ.get("WEB3FORMS_KEY")
 
 # ==================== ROTAS ====================
 
@@ -52,6 +42,7 @@ def teste():
         "logo": os.path.exists("static/imagens/logo.png")
     })
 
+
 # ==================== CONTATO ====================
 
 @app.route("/api/contact", methods=["POST"])
@@ -75,11 +66,19 @@ def contact():
                 "message": "Preencha todos os campos"
             }), 400
 
+        # Salvar local como backup
         save_lead_locally(name, email, message)
 
-        if SENDGRID_AVAILABLE and SENDGRID_API_KEY:
+        # Enviar via Web3Forms
+        if WEB3FORMS_KEY:
             try:
-                body = f"""
+                payload = {
+                    "access_key": WEB3FORMS_KEY,
+                    "name": name,
+                    "email": email,
+                    "message": f"""
+Novo contato do portfólio
+
 Nome: {name}
 Email: {email}
 Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
@@ -87,22 +86,23 @@ Data: {datetime.now().strftime('%d/%m/%Y %H:%M')}
 Mensagem:
 {message}
 """
+                }
 
-                sg_message = Mail(
-                    from_email=Email(
-                        SENDGRID_FROM_EMAIL,
-                        "Portfólio Victor"
-                    ),
-                    to_emails=To(SENDGRID_TO_EMAIL),
-                    subject=f"Novo contato de {name}",
-                    plain_text_content=body
+                response = requests.post(
+                    "https://api.web3forms.com/submit",
+                    json=payload
                 )
 
-                sg = SendGridAPIClient(SENDGRID_API_KEY)
-                sg.send(sg_message)
+                if response.status_code == 200:
+                    print("✅ Email enviado via Web3Forms")
+                else:
+                    print(f"❌ Erro Web3Forms: {response.text}")
 
             except Exception as e:
-                print(f"Erro SendGrid: {e}")
+                print(f"❌ Erro Web3Forms: {e}")
+
+        else:
+            print("⚠️ Web3Forms não configurado. Salvando apenas localmente.")
 
         return jsonify({
             "success": True,
@@ -110,7 +110,7 @@ Mensagem:
         })
 
     except Exception as e:
-        print(e)
+        print(f"❌ Erro: {e}")
 
         return jsonify({
             "success": False,
@@ -124,13 +124,21 @@ def save_lead_locally(name, email, message):
             f.write(
                 f"{datetime.now()}|{name}|{email}|{message}\n"
             )
+        print(f"📝 Lead salvo: {name}")
 
     except Exception as e:
-        print(e)
+        print(f"⚠️ Erro ao salvar lead: {e}")
 
+
+# ==================== INICIALIZAÇÃO ====================
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+
+    print("=" * 60)
+    print("🚀 Portfólio Victor Lêla")
+    print(f"📧 Web3Forms: {'✅ Configurado' if WEB3FORMS_KEY else '❌ Não configurado'}")
+    print("=" * 60)
 
     app.run(
         host="0.0.0.0",
